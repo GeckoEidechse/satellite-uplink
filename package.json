@@ -1,0 +1,23 @@
+{
+    "name": "satellite-uplink",
+    "version": "0.0.1",
+    "description": "A tool to display player choices in PUGs and sync them to other players",
+    "main": "main.js",
+    "scripts": {
+        "start": "node main.js"
+    },
+    "author": "Gecko",
+    "license": "AGPL-3.0-or-later",
+    "repository": {
+        "type": "git",
+        "url": "https://gitlab.com/GeckoEidechse/satellite-uplink/"
+    },
+    "dependencies": {
+        "escape-html": "^1.0.3",
+        "ejs": "^3.1.3",
+        "express": "^4.17.1",
+        "socket.io": "^2.3.0",
+        "discord.js": "^11.5.1",
+        "dotenv": "^8.2.0"
+    }
+}

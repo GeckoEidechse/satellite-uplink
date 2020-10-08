@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="">
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>WIP</title>
+
+  <!-- Bootstrap CSS -->
+  <!-- TODO delete <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet"> -->
+
+  <!-- Local stylesheet -->
+  <link href="styles.css" type="text/css" rel="stylesheet">
+</head>
+
+<body>
+  <div id="channel_trees">
+    <div id="lobby">Waiting<ul id="lobby_userlist"></ul>
+    </div>
+    <div id="team_a" , class="teams">Militia<ul id="team_a_userlist"></ul>
+    </div>
+    <div id="team_b" , class="teams">IMC<ul id="team_b_userlist"></ul>
+    </div>
+  </div>
+  <div class="container-fluid">
+
+    <ul class="list-group" id="messages"></ul>
+
+  </div>
+  <!-- jQuery -->
+  <script src="jquery.min.js"></script>
+  <!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script> -->
+
+  <!-- Bootstrap JavaScript -->
+  <!-- TODO delete <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script> -->
+  <script src="/socket.io/socket.io.js"></script>
+  <script>
+    const ordnances_selection_html_string = '<label>Ordnance</label><select class="ordnances" onchange="update_ordnance(this)"><option value="not_selected">not_selected</option><option value="frag_grenade">frag_grenade</option><option value="arc_grenade">arc_grenade</option><option value="fire_star">fire_star</option><option value="grav_star">grav_star</option><option value="smoke_grenade">smoke_grenade</option><option value="satchel_charge">satchel_charge</option></select>';
+    const titans_selection_html_string = '<label>Titan</label><select class="titans" onchange="update_titan(this)"><option value="not_selected">not_selected</option><option value="ion">ion</option><option value="scorch">scorch</option><option value="northstar">northstar</option><option value="ronin">ronin</option><option value="tone">tone</option><option value="legion">legion</option><option value="monarch">monarch</option></select>';
+    var socket = io();
+    $('form').submit(function () {
+      var msg = $('#m').val();
+      if (msg.length > 0)
+        socket.emit('chat message', msg);
+      else
+        console.log("Enter a valid msg :)");
+      $('#m').val("");
+      return false;
+    });
+    socket.on('chat message', function (msg) {
+      $("#messages").append('<li class="list-group-item">' + msg + '</li>');
+    });
+
+    function update_ordnance(select) {
+      var ordnance_update = {
+        ordnance: select.options[select.selectedIndex].value,
+        user_id: select.parentElement.id
+      }
+      socket.emit('update ordnance', ordnance_update);
+    }
+    function update_titan(select) {
+      var titan_update = {
+        titan: select.options[select.selectedIndex].value,
+        user_id: select.parentElement.id
+      }
+      socket.emit('update titan', titan_update);
+    }
+
+    // Call when channel tree has changed
+    socket.on('update channel tree', function (msg, user_to_ordnance_string, user_to_titan_string) {
+      console.debug("Received data:");
+      console.debug(msg);
+
+      // Make maps from the received strings created from maps
+      var user_to_ordnance = new Map(JSON.parse(user_to_ordnance_string));
+      var user_to_titan = new Map(JSON.parse(user_to_titan_string));
+
+      // Clear previous content
+      $('#lobby_userlist').html("");
+      $('#team_a_userlist').html("");
+      $('#team_b_userlist').html("");
+
+      // Update list for each user
+      for (const user of msg.channel_lobby.users) {
+        $('#lobby_userlist').append("<li class=\"user\">" + user.name + "</li>");
+      }
+      for (const user of msg.channel_a.users) {
+        $('#team_a_userlist').append("<li class=\"user\" id=\"" + user.id + "\">" + ordnances_selection_html_string + titans_selection_html_string + user.name + "</li>");
+      }
+      for (const user of msg.channel_b.users) {
+        $('#team_b_userlist').append("<li class=\"user\" id=\"" + user.id + "\">" + ordnances_selection_html_string + titans_selection_html_string + user.name + "</li>");
+      }
+      // Set the according selection for the according users
+      for (const [key, value] of user_to_ordnance.entries()) {
+        document.getElementById(key).childNodes[1].value = value; // TODO: don't statically assume the wanted child is the second elem in list
+      }
+      for (const [key, value] of user_to_titan.entries()) {
+        document.getElementById(key).childNodes[3].value = value; // TODO: don't statically assume the wanted child is the second elem in list
+      }
+    });
+
+    // Get channel tree and selections on load
+    window.onload = socket.emit('new client');
+  </script>
+</body>
+
+</html>

@@ -1,0 +1,2 @@
+If you find a security vulnerability, please open a confidential issue on
+https://gitlab.com/GeckoEidechse/satellite-uplink/-/issues/new

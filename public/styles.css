@@ -1,0 +1,25 @@
+#channel_trees {
+    background-color: gray;
+    margin: 1%;
+}
+
+#lobby {
+    background-color: burlywood;
+}
+
+.teams {
+    width: 49%;
+    background-color: aqua;
+}
+
+#team_a {
+    float: left;
+}
+
+#team_b {
+    float: right;
+}
+
+.icon_image {
+    max-width: 50px;
+}
