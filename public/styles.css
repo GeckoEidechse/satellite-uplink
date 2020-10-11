@@ -23,3 +23,10 @@
 .icon_image {
     max-width: 50px;
 }
+
+.footer{ 
+    position: fixed;     
+    text-align: center;    
+    bottom: 0px; 
+    width: 100%;
+} 
