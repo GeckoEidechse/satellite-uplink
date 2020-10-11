@@ -1,3 +1,7 @@
+body {
+    font-family: Tahoma, Verdana, Arial, sans-serif;
+}
+
 #channel_trees {
     background-color: gray;
     margin: 1%;
