@@ -197,7 +197,7 @@ bot.on('voiceStateUpdate', (oldMember, newMember) => {
   let channel_IMC = bot.channels.get(GLOBAL_CHANNEL_ID_IMC);
 
   send_users_in_all_channels(channel_waiting, channel_Milita, channel_IMC)
-  
+
   let newUserChannel = newMember.voiceChannel
   let oldUserChannel = oldMember.voiceChannel
 
