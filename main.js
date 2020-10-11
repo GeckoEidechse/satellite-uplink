@@ -48,10 +48,6 @@ io.on('connection', (socket) => {
     console.log("a user disconnected");
   });
 
-  socket.on('chat message', (msg) => {
-    console.log("Message: " + msg);
-    io.emit('chat message', msg);
-  });
 
   socket.on('update ordnance', function (msg) {
     console.debug("Received data:");
@@ -121,22 +117,6 @@ function get_users_in_channel(channel) {
     user_list.push(current_user)
   }
   return user_list;
-}
-
-function send_users_in_channel(channel) {
-  // Get users
-  let users = get_users_in_channel(channel);
-
-  //Prepare message
-  let message_to_send = "Users in channel " + channel.name + ": " + users;
-
-  // Escape any HTML code
-  message_to_send = escapeHtml(message_to_send);
-
-  // Send message
-  io.emit('chat message', message_to_send);
-
-  return;
 }
 
 function get_all_users_in_channels(list_of_channels) {

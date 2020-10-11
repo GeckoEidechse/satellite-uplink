@@ -23,11 +23,6 @@
     <div id="team_b" , class="teams">IMC<ul id="team_b_userlist"></ul>
     </div>
   </div>
-  <div class="container-fluid">
-
-    <ul class="list-group" id="messages"></ul>
-
-  </div>
 
   <div class="footer">Source on <a href="https://gitlab.com/GeckoEidechse/satellite-uplink">Gitlab</a></div>
   <!-- jQuery -->
@@ -41,18 +36,6 @@
     const ordnances_selection_html_string = '<label>Ordnance</label><select class="ordnances" onchange="update_ordnance(this)"><option value="not_selected">not_selected</option><option value="frag_grenade">frag_grenade</option><option value="arc_grenade">arc_grenade</option><option value="fire_star">fire_star</option><option value="grav_star">grav_star</option><option value="smoke_grenade">smoke_grenade</option><option value="satchel_charge">satchel_charge</option></select>';
     const titans_selection_html_string = '<label>Titan</label><select class="titans" onchange="update_titan(this)"><option value="not_selected">not_selected</option><option value="ion">ion</option><option value="scorch">scorch</option><option value="northstar">northstar</option><option value="ronin">ronin</option><option value="tone">tone</option><option value="legion">legion</option><option value="monarch">monarch</option></select>';
     var socket = io();
-    $('form').submit(function () {
-      var msg = $('#m').val();
-      if (msg.length > 0)
-        socket.emit('chat message', msg);
-      else
-        console.log("Enter a valid msg :)");
-      $('#m').val("");
-      return false;
-    });
-    socket.on('chat message', function (msg) {
-      $("#messages").append('<li class="list-group-item">' + msg + '</li>');
-    });
 
     function update_ordnance(select) {
       var ordnance_update = {
