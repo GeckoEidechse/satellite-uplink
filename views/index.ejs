@@ -39,7 +39,7 @@
     function get_image_tag(user) {
       let url = "https://cdn.discordapp.com/avatars/" + user.id + "/" + user.avatar + ".png?size=256";
       console.log(url);
-      let tag = "<img src=\"" + url + "\" alt=\"(" + user.name + "'s avatar)\" style=\"border-radius: 50%; width: 30px\"> "
+      let tag = " <img src=\"" + url + "\" alt=\"(" + user.name + "'s avatar)\" style=\"border-radius: 50%; width: 30px\"> "
       return tag;
     }
 
@@ -77,10 +77,10 @@
         $('#lobby_userlist').append("<li class=\"user\">"+ get_image_tag(user) +  user.name + "</li>");
       }
       for (const user of msg.channel_a.users) {
-        $('#team_a_userlist').append("<li class=\"user\" id=\"" + user.id + "\">" + ordnances_selection_html_string + titans_selection_html_string + user.name + "</li>");
+        $('#team_a_userlist').append("<li class=\"user\" id=\"" + user.id + "\">" + ordnances_selection_html_string + titans_selection_html_string + get_image_tag(user) + user.name + "</li>");
       }
       for (const user of msg.channel_b.users) {
-        $('#team_b_userlist').append("<li class=\"user\" id=\"" + user.id + "\">" + ordnances_selection_html_string + titans_selection_html_string + user.name + "</li>");
+        $('#team_b_userlist').append("<li class=\"user\" id=\"" + user.id + "\">" + ordnances_selection_html_string + titans_selection_html_string + get_image_tag(user) + user.name + "</li>");
       }
       // Set the according selection for the according users
       for (const [key, value] of user_to_ordnance.entries()) {
