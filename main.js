@@ -102,7 +102,7 @@ function get_users_in_channel(channel) {
     // member[1] -> `GuildMember` object
 
     // Initiate user
-    var current_user = { id: member[0], name: null };
+    var current_user = { id: member[0], name: null, avatar: member[1].user.avatar };
 
     if (member[1].nickname !== null) {
       // Prefer nickname if user has one...

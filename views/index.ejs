@@ -36,6 +36,13 @@
     const titans_selection_html_string = '<label>Titan</label><select class="titans" onchange="update_titan(this)"><option value="not_selected">not_selected</option><option value="ion">ion</option><option value="scorch">scorch</option><option value="northstar">northstar</option><option value="ronin">ronin</option><option value="tone">tone</option><option value="legion">legion</option><option value="monarch">monarch</option></select>';
     var socket = io();
 
+    function get_image_tag(user) {
+      let url = "https://cdn.discordapp.com/avatars/" + user.id + "/" + user.avatar + ".png?size=256";
+      console.log(url);
+      let tag = "<img src=\"" + url + "\" alt=\"" + user.name + "'s avatar\" style=\"border-radius: 50%; width: 30px\">"
+      return tag;
+    }
+
     function update_ordnance(select) {
       var ordnance_update = {
         ordnance: select.options[select.selectedIndex].value,
@@ -67,7 +74,7 @@
 
       // Update list for each user
       for (const user of msg.channel_lobby.users) {
-        $('#lobby_userlist').append("<li class=\"user\">" + user.name + "</li>");
+        $('#lobby_userlist').append("<li class=\"user\">"+ get_image_tag(user) +  user.name + "</li>");
       }
       for (const user of msg.channel_a.users) {
         $('#team_a_userlist').append("<li class=\"user\" id=\"" + user.id + "\">" + ordnances_selection_html_string + titans_selection_html_string + user.name + "</li>");
