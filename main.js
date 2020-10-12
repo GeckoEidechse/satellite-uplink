@@ -193,30 +193,4 @@ function remove_inactive_from_mapping(mapping, set_of_user_ids) {
 bot.on('voiceStateUpdate', (oldMember, newMember) => {
 
   send_update_to_clients();
-
-  let newUserChannel = newMember.voiceChannel
-  let oldUserChannel = oldMember.voiceChannel
-
-
-
-  //console.log(newUserChannel.members);
-
-  console.log("--------");
-  //console.log(newUserChannel);
-  console.log("--------");
-  //console.log(oldUserChannel);
-
-  console.log("--------");
-
-  if (oldUserChannel === undefined && newUserChannel !== undefined) {
-
-    // User joins a voice channel
-    console.log("User joins a voice channel");
-
-  } else if (newUserChannel === undefined) {
-
-    // User leaves a voice channel
-    console.log("User leaves a voice channel");
-
-  }
 });
