@@ -87,9 +87,9 @@ bot.on('message', msg => {
 });
 
 function send_update_to_clients() {
-  let channel_waiting = bot.channels.get(GLOBAL_CHANNEL_ID_WAITING);
-  let channel_Milita = bot.channels.get(GLOBAL_CHANNEL_ID_MILITA);
-  let channel_IMC = bot.channels.get(GLOBAL_CHANNEL_ID_IMC);
+  let channel_waiting = bot.channels.cache.get(GLOBAL_CHANNEL_ID_WAITING);
+  let channel_Milita = bot.channels.cache.get(GLOBAL_CHANNEL_ID_MILITA);
+  let channel_IMC = bot.channels.cache.get(GLOBAL_CHANNEL_ID_IMC);
 
   send_users_in_all_channels(channel_waiting, channel_Milita, channel_IMC);
 }
@@ -192,9 +192,9 @@ function remove_inactive_from_mapping(mapping, set_of_user_ids) {
 
 bot.on('voiceStateUpdate', (oldMember, newMember) => {
 
-  let channel_waiting = bot.channels.get(GLOBAL_CHANNEL_ID_WAITING);
-  let channel_Milita = bot.channels.get(GLOBAL_CHANNEL_ID_MILITA);
-  let channel_IMC = bot.channels.get(GLOBAL_CHANNEL_ID_IMC);
+  let channel_waiting = bot.channels.cache.get(GLOBAL_CHANNEL_ID_WAITING);
+  let channel_Milita = bot.channels.cache.get(GLOBAL_CHANNEL_ID_MILITA);
+  let channel_IMC = bot.channels.cache.get(GLOBAL_CHANNEL_ID_IMC);
 
   send_users_in_all_channels(channel_waiting, channel_Milita, channel_IMC)
 
