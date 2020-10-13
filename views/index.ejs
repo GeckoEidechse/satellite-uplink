@@ -58,9 +58,9 @@
     }
 
     // Call when channel tree has changed
-    socket.on('update channel tree', function (msg, user_to_ordnance_string, user_to_titan_string) {
+    socket.on('update channel tree', function (channel_tree, user_to_ordnance_string, user_to_titan_string) {
       console.debug("Received data:");
-      console.debug(msg);
+      console.debug(channel_tree);
 
       // Make maps from the received strings created from maps
       var user_to_ordnance = new Map(JSON.parse(user_to_ordnance_string));
@@ -72,13 +72,13 @@
       $('#team_b_userlist').html("");
 
       // Update list for each user
-      for (const user of msg.channel_lobby.users) {
+      for (const user of channel_tree.channel_lobby.users) {
         $('#lobby_userlist').append("<li class=\"user\">"+ get_image_tag(user) +  user.name + "</li>");
       }
-      for (const user of msg.channel_a.users) {
+      for (const user of channel_tree.channel_a.users) {
         $('#team_a_userlist').append("<li class=\"user\" id=\"" + user.id + "\">" + ordnances_selection_html_string + titans_selection_html_string + get_image_tag(user) + user.name + "</li>");
       }
-      for (const user of msg.channel_b.users) {
+      for (const user of channel_tree.channel_b.users) {
         $('#team_b_userlist').append("<li class=\"user\" id=\"" + user.id + "\">" + ordnances_selection_html_string + titans_selection_html_string + get_image_tag(user) + user.name + "</li>");
       }
       // Set the according selection for the according users

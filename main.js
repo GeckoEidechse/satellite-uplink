@@ -49,19 +49,19 @@ io.on('connection', (socket) => {
   });
 
 
-  socket.on('update ordnance', function (msg) {
+  socket.on('update ordnance', function (ordnance_update) {
     console.debug("Received data:");
-    console.debug(msg);
-    user_to_ordnance.set(msg.user_id, msg.ordnance);
+    console.debug(ordnance_update);
+    user_to_ordnance.set(ordnance_update.user_id, ordnance_update.ordnance);
     console.debug(user_to_ordnance);
     // send update back
     send_update_to_clients();
   });
 
-  socket.on('update titan', function (msg) {
+  socket.on('update titan', function (titan_update) {
     console.debug("Received data:");
-    console.debug(msg);
-    user_to_titan.set(msg.user_id, msg.titan);
+    console.debug(titan_update);
+    user_to_titan.set(titan_update.user_id, titan_update.titan);
     console.debug(user_to_titan);
     // send update back
     send_update_to_clients();
