@@ -76,6 +76,11 @@
       $('#team_a_userlist').html("");
       $('#team_b_userlist').html("");
 
+      // Sort channel list
+      channel_tree.channel_lobby.users.sort((a, b) => a.name.localeCompare(b.name));
+      channel_tree.channel_a.users.sort((a, b) => a.name.localeCompare(b.name));
+      channel_tree.channel_b.users.sort((a, b) => a.name.localeCompare(b.name));
+
       // Update list for each user
       for (const user of channel_tree.channel_lobby.users) {
         $('#lobby_userlist').append("<li class=\"user\">"+ get_image_tag(user) +  user.name + "</li>");
