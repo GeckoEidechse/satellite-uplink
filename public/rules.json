@@ -1,0 +1,62 @@
+{
+    "ordnances": [
+        {
+            "id": "frag_grenade",
+            "max_per_team": 1
+        },
+        {
+            "id": "arc_grenade",
+            "max_per_team": 1
+        },
+        {
+            "id": "fire_star",
+            "max_per_team": null
+        },
+        {
+            "id": "grav_star",
+            "max_per_team": 1
+        },
+        {
+            "id": "smoke_grenade",
+            "max_per_team": 1
+        },
+        {
+            "id": "satchel_charge",
+            "max_per_team": 1
+        }
+    ],
+    "titans": [
+        {
+            "id": "ion",
+            "max_per_team": 1
+        },
+        {
+            "id": "scorch",
+            "max_per_team": 1
+        },
+        {
+            "id": "northstar",
+            "max_per_team": 1
+        },
+        {
+            "id": "ronin",
+            "max_per_team": 1
+        },
+        {
+            "id": "tone",
+            "max_per_team": 1
+        },
+        {
+            "id": "legion",
+            "max_per_team": 1
+        },
+        {
+            "id": "monarch",
+            "max_per_team": 1
+        }
+    ],
+    "grapple": {
+        "id": "grapple",
+        "max_per_team": 1
+    }
+}

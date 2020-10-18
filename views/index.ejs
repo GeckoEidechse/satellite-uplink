@@ -32,8 +32,8 @@
   <!-- Socket Library -->
   <script src="/socket.io/socket.io.js"></script>
   <script>
-    const ordnances_selection_html_string = '<label>Ordnance</label><select class="ordnances" onchange="update_ordnance(this)"><option value="not_selected">not_selected</option><option value="frag_grenade">frag_grenade</option><option value="arc_grenade">arc_grenade</option><option value="fire_star">fire_star</option><option value="grav_star">grav_star</option><option value="smoke_grenade">smoke_grenade</option><option value="satchel_charge">satchel_charge</option></select>';
-    const titans_selection_html_string = '<label>Titan</label><select class="titans" onchange="update_titan(this)"><option value="not_selected">not_selected</option><option value="ion">ion</option><option value="scorch">scorch</option><option value="northstar">northstar</option><option value="ronin">ronin</option><option value="tone">tone</option><option value="legion">legion</option><option value="monarch">monarch</option></select>';
+    var ordnances_selection_html_string = '';
+    var titans_selection_html_string = '';
     var socket = io();
 
     function get_image_tag(user) {
@@ -99,6 +99,35 @@
         document.getElementById(key).childNodes[3].value = value; // TODO: don't statically assume the wanted child is the second elem in list
       }
     });
+
+    function get_html_selection_string(name, id, options) {
+      // Creates HTML string that contains list of `options`
+
+      var selection_html_string = '<label>' + name + '</label><select onchange="update_' + id + '(this)">';
+      // Add default empty selection
+      selection_html_string += '<option value="not_selected">not_selected</option>';
+      for (const option of options) {
+        selection_html_string += '<option value="' + option.id + '">' + option.id + '</option>';
+      }
+      // Close tag
+      selection_html_string += '</select>';
+      return selection_html_string;
+    }
+
+    // Load ruleset
+    var url = '/rules.json';
+    var rules = {};
+    $.ajax({
+      type: 'GET',
+      url: url,
+      dataType: 'json',
+      success: function (data) { rules = data; },
+      async: false
+    });
+
+    // Apply rules
+    ordnances_selection_html_string = get_html_selection_string('Ordnance', 'ordnance', rules.ordnances);
+    titans_selection_html_string = get_html_selection_string('Titan', 'titan', rules.titans);
 
     // Get channel tree and selections on load
     window.onload = socket.emit('new client');
