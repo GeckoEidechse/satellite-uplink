@@ -18,9 +18,9 @@
   <div id="channel_trees">
     <div id="lobby">Waiting<ul id="lobby_userlist"></ul>
     </div>
-    <div id="team_a" , class="teams">Militia<ul id="team_a_userlist"></ul>
+    <div id="team_a" class="teams">Militia<ul id="team_a_userlist"></ul>
     </div>
-    <div id="team_b" , class="teams">IMC<ul id="team_b_userlist"></ul>
+    <div id="team_b" class="teams">IMC<ul id="team_b_userlist"></ul>
     </div>
   </div>
 
@@ -41,7 +41,7 @@
         var url = "https://cdn.discordapp.com/avatars/" + user.id + "/" + user.avatar + ".png?size=256";
       else
         // If user has no icon, use default
-        var url = "https://discord.com/assets/dd4dbc0016779df1378e7812eabaa04d"+ ".png?size=256";
+        var url = "https://discord.com/assets/dd4dbc0016779df1378e7812eabaa04d" + ".png?size=256";
 
       let tag = " <img src=\"" + url + "\" alt=\"(" + user.name + "'s avatar)\" style=\"border-radius: 50%; width: 30px\"> "
       return tag;
@@ -83,7 +83,7 @@
 
       // Update list for each user
       for (const user of channel_tree.channel_lobby.users) {
-        $('#lobby_userlist').append("<li class=\"user\">"+ get_image_tag(user) +  user.name + "</li>");
+        $('#lobby_userlist').append("<li class=\"user\">" + get_image_tag(user) + user.name + "</li>");
       }
       for (const user of channel_tree.channel_a.users) {
         $('#team_a_userlist').append("<li class=\"user\" id=\"" + user.id + "\">" + ordnances_selection_html_string + titans_selection_html_string + get_image_tag(user) + user.name + "</li>");
