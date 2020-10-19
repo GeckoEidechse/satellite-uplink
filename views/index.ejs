@@ -123,6 +123,17 @@
       }
       available_html_string += '</ul>'
       $(html_object_id).append(available_html_string);
+      for (const ordnance of rules_copy.ordnances) {
+        if (ordnance.max_per_team < 0 && ordnance.max_per_team != null) {
+          $(html_object_id).append('<p style="color: red">Too many: ' + ordnance.id + ' !</p>');
+        }
+      }
+      for (const titan of rules_copy.titans) {
+        if (titan.max_per_team < 0 && titan.max_per_team != null) {
+          console.log('Too many: ' + titan.id);
+          $(html_object_id).append('<p style="color: red">Too many: ' + titan.id + ' !</p>');
+        }
+      }
     }
 
     // Call when channel tree has changed
