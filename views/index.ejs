@@ -82,7 +82,7 @@
         return selection;
     }
 
-    function display_available_for_channel(channel_users, html_object_id, user_to_ordnance, user_to_titan) {
+    function get_current_available(channel_users, user_to_ordnance, user_to_titan) {
       // Clone object
       var rules_copy = jQuery.extend(true, {}, rules);
       for (const user of channel_users) {
@@ -103,6 +103,11 @@
           });
         }
       }
+      return rules_copy;
+    }
+
+    function display_available_for_channel(channel_users, html_object_id, user_to_ordnance, user_to_titan) {
+      var rules_copy = get_current_available(channel_users, user_to_ordnance, user_to_titan);
       var available_html_string = ''
       available_html_string += '<hr />' + '<h3>Available:</h3>' + '<br />' + '<b>Ordnances</b>' + '<ul>'
       for (const ordnance of rules_copy.ordnances) {
