@@ -62,6 +62,56 @@
       socket.emit('update titan', titan_update);
     }
 
+    function decrement_available(selection, id) {
+      if (selection.id == id && selection.max_per_team) {
+        var result = {
+          "id": selection.id,
+          "max_per_team": selection.max_per_team - 1
+        };
+        return result;
+      }
+      else
+        return selection;
+    }
+
+    function display_available_for_channel(channel_users, html_object_id, user_to_ordnance, user_to_titan) {
+      // Clone object
+      var copiedObject = jQuery.extend(true, {}, rules);
+      for (const user of channel_users) {
+        // Ordnance
+        let ordnance_selection = user_to_ordnance.get(user.id);
+        if (ordnance_selection) { // Only run if user selected something
+          // Remove the selection from available
+          copiedObject.ordnances = copiedObject.ordnances.map(function (element) {
+            return decrement_available(element, ordnance_selection);
+          });
+        }
+        // Titan
+        let titan_selection = user_to_titan.get(user.id);
+        if (titan_selection) { // Only run if user selected something
+          // Remove the selection from available
+          copiedObject.titans = copiedObject.titans.map(function (element) {
+            return decrement_available(element, titan_selection);
+          });
+        }
+      }
+      var available_html_string = ''
+      available_html_string += '<hr />' + 'Available:' + '<hr />' + '<ul>'
+      for (const ordnance of copiedObject.ordnances) {
+        if (ordnance.max_per_team > 0 || ordnance.max_per_team == null) {
+          available_html_string += '<li>' + ordnance.id + '</li>';
+        }
+      }
+      available_html_string += '</ul>' + '<hr />' + '<ul>'
+      for (const titan of copiedObject.titans) {
+        if (titan.max_per_team > 0 || titan.max_per_team == null) {
+          available_html_string += '<li>' + titan.id + '</li>';
+        }
+      }
+      available_html_string += '</ul>'
+      $(html_object_id).append(available_html_string);
+    }
+
     // Call when channel tree has changed
     socket.on('update channel tree', function (channel_tree, user_to_ordnance_string, user_to_titan_string) {
       console.debug("Received data:");
@@ -98,6 +148,9 @@
       for (const [key, value] of user_to_titan.entries()) {
         document.getElementById(key).childNodes[3].value = value; // TODO: don't statically assume the wanted child is the second elem in list
       }
+      // Update available items
+      display_available_for_channel(channel_tree.channel_a.users, '#team_a_userlist', user_to_ordnance, user_to_titan);
+      display_available_for_channel(channel_tree.channel_b.users, '#team_b_userlist', user_to_ordnance, user_to_titan);
     });
 
     function get_html_selection_string(name, id, options) {
