@@ -122,8 +122,6 @@
 
     // Call when channel tree has changed
     socket.on('update channel tree', function (channel_tree, user_to_ordnance_string, user_to_titan_string) {
-      console.debug("Received data:");
-      console.debug(channel_tree);
 
       // Make maps from the received strings created from maps
       var user_to_ordnance = new Map(JSON.parse(user_to_ordnance_string));
