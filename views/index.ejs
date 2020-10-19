@@ -104,13 +104,13 @@
         }
       }
       var available_html_string = ''
-      available_html_string += '<hr />' + 'Available:' + '<hr />' + '<ul>'
+      available_html_string += '<hr />' + '<h3>Available:</h3>' + '<br />' + '<b>Ordnances</b>' + '<ul>'
       for (const ordnance of rules_copy.ordnances) {
         if (ordnance.max_per_team > 0 || ordnance.max_per_team == null) {
           available_html_string += '<li>' + ordnance.id + '</li>';
         }
       }
-      available_html_string += '</ul>' + '<hr />' + '<ul>'
+      available_html_string += '</ul>' + '<b>Titans</b>' + '<ul>'
       for (const titan of rules_copy.titans) {
         if (titan.max_per_team > 0 || titan.max_per_team == null) {
           available_html_string += '<li>' + titan.id + '</li>';
