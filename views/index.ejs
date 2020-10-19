@@ -79,13 +79,13 @@
 
     function display_available_for_channel(channel_users, html_object_id, user_to_ordnance, user_to_titan) {
       // Clone object
-      var copiedObject = jQuery.extend(true, {}, rules);
+      var rules_copy = jQuery.extend(true, {}, rules);
       for (const user of channel_users) {
         // Ordnance
         let ordnance_selection = user_to_ordnance.get(user.id);
         if (ordnance_selection) { // Only run if user selected something
           // Remove the selection from available
-          copiedObject.ordnances = copiedObject.ordnances.map(function (element) {
+          rules_copy.ordnances = rules_copy.ordnances.map(function (element) {
             return decrement_available(element, ordnance_selection);
           });
         }
@@ -93,20 +93,20 @@
         let titan_selection = user_to_titan.get(user.id);
         if (titan_selection) { // Only run if user selected something
           // Remove the selection from available
-          copiedObject.titans = copiedObject.titans.map(function (element) {
+          rules_copy.titans = rules_copy.titans.map(function (element) {
             return decrement_available(element, titan_selection);
           });
         }
       }
       var available_html_string = ''
       available_html_string += '<hr />' + 'Available:' + '<hr />' + '<ul>'
-      for (const ordnance of copiedObject.ordnances) {
+      for (const ordnance of rules_copy.ordnances) {
         if (ordnance.max_per_team > 0 || ordnance.max_per_team == null) {
           available_html_string += '<li>' + ordnance.id + '</li>';
         }
       }
       available_html_string += '</ul>' + '<hr />' + '<ul>'
-      for (const titan of copiedObject.titans) {
+      for (const titan of rules_copy.titans) {
         if (titan.max_per_team > 0 || titan.max_per_team == null) {
           available_html_string += '<li>' + titan.id + '</li>';
         }
