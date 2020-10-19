@@ -71,7 +71,7 @@
     }
 
     function decrement_available(selection, id) {
-      if (selection.id == id && selection.max_per_team) {
+      if (selection.id == id && selection.max_per_team != null) {
         var result = {
           "id": selection.id,
           "max_per_team": selection.max_per_team - 1
