@@ -2,56 +2,69 @@
     "ordnances": [
         {
             "id": "frag_grenade",
+            "name": "Frag Grenade",
             "max_per_team": 1
         },
         {
             "id": "arc_grenade",
+            "name": "Arc Grenade",
             "max_per_team": 1
         },
         {
             "id": "fire_star",
+            "name": "Firestar",
             "max_per_team": null
         },
         {
             "id": "grav_star",
+            "name": "Gravitiy Star",
             "max_per_team": 1
         },
         {
             "id": "smoke_grenade",
+            "name": "Electric Smoke Grenade",
             "max_per_team": 1
         },
         {
             "id": "satchel_charge",
+            "name": "Satch charge",
             "max_per_team": 1
         }
     ],
     "titans": [
         {
             "id": "ion",
+            "name": "Ion",
             "max_per_team": 1
         },
         {
             "id": "scorch",
+            "name": "Scorch",
             "max_per_team": 1
         },
         {
             "id": "northstar",
+            "name": "Northstar",
             "max_per_team": 1
         },
         {
             "id": "ronin",
+            "name": "Ronin",
             "max_per_team": 1
         },
         {
             "id": "tone",
+            "name": "Tone",
             "max_per_team": 1
         },
         {
             "id": "legion",
+            "name": "Legion",
             "max_per_team": 1
         },
         {
             "id": "monarch",
+            "name": "Monarch",
             "max_per_team": 1
         }
     ],

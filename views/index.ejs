@@ -127,13 +127,13 @@
       available_html_string += '<hr />' + '<h3>Available:</h3>' + '<br />' + '<b>Ordnances</b>' + '<ul>'
       for (const ordnance of rules_copy.ordnances) {
         if (ordnance.max_per_team > 0 || ordnance.max_per_team == null) {
-          available_html_string += '<li>' + '<img src="/images/icons/ordnances/'+ ordnance.id +'.png" width="30px" height="30px"></img> ' + ordnance.id + '</li>';
+          available_html_string += '<li>' + '<img src="/images/icons/ordnances/'+ ordnance.id +'.png" width="30px" height="30px"></img> ' + ordnance.name + '</li>';
         }
       }
       available_html_string += '</ul>' + '<b>Titans</b>' + '<ul>'
       for (const titan of rules_copy.titans) {
         if (titan.max_per_team > 0 || titan.max_per_team == null) {
-          available_html_string += '<li>'+ '<img src="/images/icons/titans/'+ titan.id +'.png" width="30px" height="30px"></img> ' + titan.id + '</li>';
+          available_html_string += '<li>'+ '<img src="/images/icons/titans/'+ titan.id +'.png" width="30px" height="30px"></img> ' + titan.name + '</li>';
         }
       }
       available_html_string += '</ul>'
