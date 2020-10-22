@@ -20,13 +20,15 @@
       <h1>Waiting</h1>
       <ul id="lobby_userlist"></ul>
     </div>
-    <div id="team_a" class="teams channel">
-      <h2>Militia</h2>
-      <ul id="team_a_userlist"></ul>
-    </div>
-    <div id="team_b" class="teams channel">
-      <h2>IMC</h2>
-      <ul id="team_b_userlist"></ul>
+    <div id="team_channels">
+      <div id="team_a" class="teams channel">
+        <h2>Militia</h2>
+        <ul id="team_a_userlist"></ul>
+      </div>
+      <div id="team_b" class="teams channel">
+        <h2>IMC</h2>
+        <ul id="team_b_userlist"></ul>
+      </div>
     </div>
   </div>
 
@@ -45,11 +47,11 @@
   <!-- Socket Library -->
   <script src="/socket.io/socket.io.js"></script>
   <script>
-    function toggle_callout_display(checkbox){
+    function toggle_callout_display(checkbox) {
       // Clear HTML element
       $('#inner_callout_container').html("");
       // Show iframe if box is checked
-      if(checkbox.checked){
+      if (checkbox.checked) {
         $('#inner_callout_container').append('<iframe src="https://docs.google.com/presentation/d/e/2PACX-1vTvuwVzSbumH9uWgYxMVSfTOxzpzehRQlS9g9CQ8NFAHdGynYiQprnV5XXGznnxVBdjISy-dDNy3OkF/embed?start=false&loop=false&delayms=3000" frameborder="0" width="960" height="569" allowfullscreen="true" mozallowfullscreen="true" webkitallowfullscreen="true"></iframe>');
       }
     }

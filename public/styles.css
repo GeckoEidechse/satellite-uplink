@@ -7,17 +7,15 @@ body {
     background-color: burlywood;
 }
 
+#team_channels {
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+}
+
 .teams {
-    width: 48%;
+    flex: 450px; /* Adjust this value dynamically based on length of content */
     background-color: aqua;
-}
-
-#team_a {
-    float: left;
-}
-
-#team_b {
-    float: right;
 }
 
 .icon_image {
@@ -26,7 +24,7 @@ body {
 
 .channel {
     padding: 5px;
-    margin-bottom: 5px;
+    margin: 5px;
     border-radius: 7px;
 }
 
