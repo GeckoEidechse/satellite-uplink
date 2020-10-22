@@ -55,7 +55,7 @@ io.on('connection', (socket) => {
     user_to_ordnance.set(ordnance_update.user_id, ordnance_update.ordnance);
     console.debug(user_to_ordnance);
     // send update back
-    send_update_to_clients();
+    send_full_update_to_clients();
   });
 
   socket.on('update titan', function (titan_update) {
@@ -64,11 +64,12 @@ io.on('connection', (socket) => {
     user_to_titan.set(titan_update.user_id, titan_update.titan);
     console.debug(user_to_titan);
     // send update back
-    send_update_to_clients();
+    send_full_update_to_clients();
   });
+
   socket.on('new client', function () {
     // Update if a new client joins
-    send_update_to_clients(); // TODO update only for new client
+    send_full_update_to_clients(); // TODO update only for new client
   });
 });
 server.listen(PORT, () => {
@@ -86,7 +87,7 @@ bot.on('message', msg => {
   // Do nothing on msg
 });
 
-function send_update_to_clients() {
+function send_full_update_to_clients() {
   let channel_waiting = bot.channels.cache.get(GLOBAL_CHANNEL_ID_WAITING);
   let channel_Milita = bot.channels.cache.get(GLOBAL_CHANNEL_ID_MILITA);
   let channel_IMC = bot.channels.cache.get(GLOBAL_CHANNEL_ID_IMC);
@@ -192,5 +193,5 @@ function remove_inactive_from_mapping(mapping, set_of_user_ids) {
 
 bot.on('voiceStateUpdate', (oldMember, newMember) => {
 
-  send_update_to_clients();
+  send_full_update_to_clients();
 });
