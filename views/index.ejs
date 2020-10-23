@@ -127,13 +127,13 @@
       available_html_string += '<hr />' + '<b>Available:</b>' + '<br />' + '<div style="display: flex;">'
       for (const ordnance of rules_copy.ordnances) {
         if (ordnance.max_per_team > 0 || ordnance.max_per_team == null) {
-          available_html_string += '<div>' + '<img src="/images/icons/ordnances/' + ordnance.id + '.png" alt="' + ordnance.name + '" title="' + ordnance.name + '" width="30px" height="30px"></img> ' + '</div>';
+          available_html_string += '<div style="margin: 1px">' + '<img src="/images/icons/ordnances/' + ordnance.id + '.png" alt="' + ordnance.name + '" title="' + ordnance.name + '" width="30px" height="30px"></img> ' + '</div>';
         }
       }
       available_html_string += '</div>' + '<div style="display: flex;">'
       for (const titan of rules_copy.titans) {
         if (titan.max_per_team > 0 || titan.max_per_team == null) {
-          available_html_string += '<div>' + '<img src="/images/icons/titans/' + titan.id + '.png" alt="' + titan.name + '" title="' + titan.name + '" width="30px" height="30px"></img> ' + '</div>';
+          available_html_string += '<div style="margin: 1px">' + '<img src="/images/icons/titans/' + titan.id + '.png" alt="' + titan.name + '" title="' + titan.name + '" width="30px" height="30px"></img> ' + '</div>';
         }
       }
       available_html_string += '</div>'
