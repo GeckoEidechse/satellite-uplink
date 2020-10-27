@@ -157,7 +157,6 @@ function send_users_in_all_channels(channel_lobby, channel_a, channel_b) {
   }
   // Remove selection if user switches to lobby/waiting
   for (user of channel_tree_object.channel_lobby.users) {
-    console.log(user.id);
     user_to_ordnance.delete(user.id);
     user_to_titan.delete(user.id);
   }
@@ -165,7 +164,6 @@ function send_users_in_all_channels(channel_lobby, channel_a, channel_b) {
   // Remove selection if user is no longer present
   // Get all users...
   let set_of_user_ids = get_set_of_user_ids(get_all_users_in_channels([channel_lobby, channel_a, channel_b]));
-  console.log(set_of_user_ids);
   // ...and remove inactive from mappings
   remove_inactive_from_mapping(user_to_ordnance, set_of_user_ids);
   remove_inactive_from_mapping(user_to_titan, set_of_user_ids);
@@ -184,7 +182,6 @@ function remove_inactive_from_mapping(mapping, set_of_user_ids) {
   console.log("remove_inactive_from_mapping");
   console.log("Mapping:", mapping);
   for (const [user_id, _] of mapping.entries()) {
-    console.log(user);
     if (!set_of_user_ids.has(user_id)) {
       mapping.delete(user_id);
     }
