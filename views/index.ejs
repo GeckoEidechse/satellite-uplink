@@ -72,15 +72,15 @@
 
     function update_ordnance(select) {
       var ordnance_update = {
-        ordnance: select.options[select.selectedIndex].value,
-        user_id: select.parentElement.id
+        ordnance: select.classList[0],
+        user_id: String(select.parentElement.parentElement.parentElement.id)
       }
       socket.emit('update ordnance', ordnance_update);
     }
     function update_titan(select) {
       var titan_update = {
-        titan: select.options[select.selectedIndex].value,
-        user_id: select.parentElement.id
+        titan: select.classList[0],
+        user_id: String(select.parentElement.parentElement.parentElement.id)
       }
       socket.emit('update titan', titan_update);
     }
@@ -180,10 +180,10 @@
       }
       // Set the according selection for the according users
       for (const [key, value] of user_to_ordnance.entries()) {
-        document.getElementById(key).childNodes[1].value = value; // TODO: don't statically assume the wanted child is the second elem in list
+        $("#" + key).find(".dropbtn.ordnance").html('<img class="icon_image" src="/images/icons/ordnances/' + value + '.png" alt="' + value + '" width="30px" height="30px">');
       }
       for (const [key, value] of user_to_titan.entries()) {
-        document.getElementById(key).childNodes[3].value = value; // TODO: don't statically assume the wanted child is the second elem in list
+        $("#" + key).find(".dropbtn.titan").html('<img class="icon_image" src="/images/icons/titans/' + value + '.png" alt="' + value + '" width="30px" height="30px">');
       }
       // Update available items
       display_available_for_channel(channel_tree.channel_a.users, '#team_a_userlist', user_to_ordnance, user_to_titan);
@@ -192,16 +192,19 @@
 
     function get_html_selection_string(name, id, options) {
       // Creates HTML string that contains list of `options`
-
-      var selection_html_string = '<label>' + name + '</label><select onchange="update_' + id + '(this)">';
+      let html_string = '';
+      html_string += '<div class="dropdown">';
+      html_string += '<button class="dropbtn ' + id + '">' + name + '</button>';
+      html_string += '<div class="dropdown-content">';
       // Add default empty selection
-      selection_html_string += '<option value="not_selected">not_selected</option>';
+      html_string += '<button class="not_selected" onclick="update_' + id + '(this);"><img class="icon_image" src="/images/icons/' + id + 's/not_selected.png" alt="not_selected" width="30px" height="30px"></button>';
+
       for (const option of options) {
-        selection_html_string += '<option value="' + option.id + '">' + option.id + '</option>';
+        html_string += '<button class="' + option.id + '" onclick="update_' + id + '(this);"><img class="icon_image" src="/images/icons/' + id + 's/' + option.id + '.png" alt="' + option.name + '" width="30px" height="30px"></button>'
       }
-      // Close tag
-      selection_html_string += '</select>';
-      return selection_html_string;
+      html_string += '</div>';
+      html_string += '</div>';
+      return html_string;
     }
 
     // Load ruleset
