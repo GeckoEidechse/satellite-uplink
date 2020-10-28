@@ -85,6 +85,18 @@ bot.on('ready', () => {
 
 bot.on('message', msg => {
   // Do nothing on msg
+  // if (msg.content === 'ping') {
+  //   msg.reply('pong');
+  //   //msg.channel.send('pong');
+
+  // } else if (msg.content.startsWith('!kick')) {
+  //   if (msg.mentions.users.size) {
+  //     const taggedUser = msg.mentions.users.first();
+  //     msg.channel.send(`You wanted to kick: ${taggedUser.username}`);
+  //   } else {
+  //     msg.reply('Please tag a valid user!');
+  //   }
+  // }
 });
 
 function send_full_update_to_clients() {
@@ -124,10 +136,6 @@ function get_users_in_channel(channel) {
     current_user.name = escapeHtml(current_user.name);
     // Add to list
     user_list.push(current_user)
-  }
-  // Add test user
-  if (channel == bot.channels.cache.get(GLOBAL_CHANNEL_ID_MILITA)) {
-    user_list.push(current_user = { id: "123", name: escapeHtml("<test_user>"), avatar: null });
   }
   return user_list;
 }
@@ -169,6 +177,7 @@ function send_users_in_all_channels(channel_lobby, channel_a, channel_b) {
   }
   // Remove selection if user switches to lobby/waiting
   for (user of channel_tree_object.channel_lobby.users) {
+    console.log("Removing user due to being in lobby:", user.id);
     user_to_ordnance.delete(user.id);
     user_to_titan.delete(user.id);
   }
