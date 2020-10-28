@@ -55,7 +55,7 @@ io.on('connection', (socket) => {
     user_to_ordnance.set(ordnance_update.user_id, ordnance_update.ordnance);
     console.debug(user_to_ordnance);
     // send update back
-    send_full_update_to_clients();
+    send_selection_update_to_clients();
   });
 
   socket.on('update titan', function (titan_update) {
@@ -64,7 +64,7 @@ io.on('connection', (socket) => {
     user_to_titan.set(titan_update.user_id, titan_update.titan);
     console.debug(user_to_titan);
     // send update back
-    send_full_update_to_clients();
+    send_selection_update_to_clients();
   });
 
   socket.on('new client', function () {
@@ -95,6 +95,14 @@ function send_full_update_to_clients() {
   send_users_in_all_channels(channel_waiting, channel_Milita, channel_IMC);
 }
 
+function send_selection_update_to_clients() {
+  let channel_waiting = bot.channels.cache.get(GLOBAL_CHANNEL_ID_WAITING);
+  let channel_Milita = bot.channels.cache.get(GLOBAL_CHANNEL_ID_MILITA);
+  let channel_IMC = bot.channels.cache.get(GLOBAL_CHANNEL_ID_IMC);
+
+  send_current_selections(channel_waiting, channel_Milita, channel_IMC);
+}
+
 function get_users_in_channel(channel) {
   var user_list = [];
 
@@ -116,6 +124,10 @@ function get_users_in_channel(channel) {
     current_user.name = escapeHtml(current_user.name);
     // Add to list
     user_list.push(current_user)
+  }
+  // Add test user
+  if (channel == bot.channels.cache.get(GLOBAL_CHANNEL_ID_MILITA)) {
+    user_list.push(current_user = { id: "123", name: escapeHtml("<test_user>"), avatar: null });
   }
   return user_list;
 }
@@ -174,6 +186,48 @@ function send_users_in_all_channels(channel_lobby, channel_a, channel_b) {
 
   // Send message
   io.emit('update channel tree', channel_tree_object, user_to_ordnance_string, user_to_titan_string);
+
+  return;
+}
+
+// TODO a lot of code here is duplicated from `send_users_in_all_channels`
+// Refactoring should be performed for cleanup
+function send_current_selections(channel_lobby, channel_a, channel_b) {
+
+  var channel_tree_object = {
+    channel_lobby: {
+      name: channel_lobby.name,
+      users: get_users_in_channel(channel_lobby)
+    },
+    channel_a: {
+      name: channel_a.name,
+      users: get_users_in_channel(channel_a)
+    },
+    channel_b: {
+      name: channel_b.name,
+      users: get_users_in_channel(channel_b)
+    },
+  }
+  // Remove selection if user switches to lobby/waiting
+  for (user of channel_tree_object.channel_lobby.users) {
+    console.log("Removing user due to being in lobby:", user.id);
+    user_to_ordnance.delete(user.id);
+    user_to_titan.delete(user.id);
+  }
+
+  // Remove selection if user is no longer present
+  // Get all users...
+  let set_of_user_ids = get_set_of_user_ids(get_all_users_in_channels([channel_lobby, channel_a, channel_b]));
+  // ...and remove inactive from mappings
+  remove_inactive_from_mapping(user_to_ordnance, set_of_user_ids);
+  remove_inactive_from_mapping(user_to_titan, set_of_user_ids);
+
+  // Convert to string as we cannot send Maps via socket.io
+  let user_to_ordnance_string = JSON.stringify(Array.from(user_to_ordnance));
+  let user_to_titan_string = JSON.stringify(Array.from(user_to_titan));
+
+  // Send message
+  io.emit('update selections', channel_tree_object, user_to_ordnance_string, user_to_titan_string);
 
   return;
 }

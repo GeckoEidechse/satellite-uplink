@@ -24,10 +24,12 @@
       <div id="team_a" class="teams channel">
         <h2>Militia</h2>
         <ul id="team_a_userlist"></ul>
+        <div id="team_a_available"></div>
       </div>
       <div id="team_b" class="teams channel">
         <h2>IMC</h2>
         <ul id="team_b_userlist"></ul>
+        <div id="team_b_available"></div>
       </div>
     </div>
   </div>
@@ -137,6 +139,9 @@
         }
       }
       available_html_string += '</div>'
+      // Clear content
+      $(html_object_id).html("");
+      // Redraw
       $(html_object_id).append(available_html_string);
       for (const ordnance of rules_copy.ordnances) {
         if (ordnance.max_per_team < 0 && ordnance.max_per_team != null) {
@@ -178,6 +183,14 @@
       for (const user of channel_tree.channel_b.users) {
         $('#team_b_userlist').append("<li class=\"user\" id=\"" + user.id + "\">" + ordnances_selection_html_string + titans_selection_html_string + get_image_tag(user) + user.name + "</li>");
       }
+      update_according_to_selections(channel_tree, user_to_ordnance_string, user_to_titan_string);
+    });
+
+    function update_according_to_selections(channel_tree, user_to_ordnance_string, user_to_titan_string) {
+      // Make maps from the received strings created from maps
+      var user_to_ordnance = new Map(JSON.parse(user_to_ordnance_string));
+      var user_to_titan = new Map(JSON.parse(user_to_titan_string));
+
       // Set the according selection for the according users
       for (const [key, value] of user_to_ordnance.entries()) {
         $("#" + key).find(".dropbtn.ordnance").html('<img class="icon_image" src="/images/icons/ordnances/' + value + '.png" alt="' + value + '" width="30px" height="30px">');
@@ -186,8 +199,11 @@
         $("#" + key).find(".dropbtn.titan").html('<img class="icon_image" src="/images/icons/titans/' + value + '.png" alt="' + value + '" width="30px" height="30px">');
       }
       // Update available items
-      display_available_for_channel(channel_tree.channel_a.users, '#team_a_userlist', user_to_ordnance, user_to_titan);
-      display_available_for_channel(channel_tree.channel_b.users, '#team_b_userlist', user_to_ordnance, user_to_titan);
+      display_available_for_channel(channel_tree.channel_a.users, '#team_a_available', user_to_ordnance, user_to_titan);
+      display_available_for_channel(channel_tree.channel_b.users, '#team_b_available', user_to_ordnance, user_to_titan);
+    }
+    socket.on('update selections', function (channel_tree, user_to_ordnance_string, user_to_titan_string) {
+      update_according_to_selections(channel_tree, user_to_ordnance_string, user_to_titan_string);
     });
 
     function get_html_selection_string(name, id, options) {
