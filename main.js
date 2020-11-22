@@ -152,16 +152,21 @@ function get_data_to_send(channel_lobby, channel_a, channel_b) {
   var channel_tree_object = {
     channel_lobby: {
       name: channel_lobby.name,
+      id: channel_lobby.id,
       users: get_users_in_channel(channel_lobby)
     },
-    channel_a: {
-      name: channel_a.name,
-      users: get_users_in_channel(channel_a)
-    },
-    channel_b: {
-      name: channel_b.name,
-      users: get_users_in_channel(channel_b)
-    },
+    team_channels: [
+      {
+        name: channel_a.name,
+        id: channel_a.id,
+        users: get_users_in_channel(channel_a)
+      },
+      {
+        name: channel_b.name,
+        id: channel_b.id,
+        users: get_users_in_channel(channel_b)
+      }
+    ]
   }
   // Remove selection if user switches to lobby/waiting
   for (user of channel_tree_object.channel_lobby.users) {

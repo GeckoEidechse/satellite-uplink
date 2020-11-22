@@ -160,24 +160,36 @@
       var user_to_titan = new Map(JSON.parse(user_to_titan_string));
 
       // Clear previous content
-      $('#lobby_userlist').html("");
-      $('#team_a_userlist').html("");
-      $('#team_b_userlist').html("");
+      $('#channel_trees').html("");
+
+      // Add lobby
+      $('#channel_trees').append(
+        '<div id="' + channel_tree.channel_lobby.id + '" class="lobby channel"><h1>' + channel_tree.channel_lobby.name + '</h1><ul id="lobby_userlist"></ul></div>'
+      )
+      // Add team channels
+      $('#channel_trees').append('<div id="team_channels"></div>')
+      for (channel of channel_tree.team_channels) {
+        $('#team_channels').append(
+          '<div id="' + channel.id + '" class="teams channel"><h2>' + channel.name + '</h2><ul id="' + channel.id + '_userlist"></ul><div id="' + channel.id + '_available"></div></div>'
+        )
+      }
 
       // Sort channel list
       channel_tree.channel_lobby.users.sort((a, b) => a.name.localeCompare(b.name));
-      channel_tree.channel_a.users.sort((a, b) => a.name.localeCompare(b.name));
-      channel_tree.channel_b.users.sort((a, b) => a.name.localeCompare(b.name));
+      for (channel of channel_tree.team_channels) {
+        channel.users.sort((a, b) => a.name.localeCompare(b.name));
+      }
 
       // Update list for each user
       for (const user of channel_tree.channel_lobby.users) {
         $('#lobby_userlist').append("<li class=\"user\">" + get_image_tag(user) + user.name + "</li>");
       }
-      for (const user of channel_tree.channel_a.users) {
-        $('#team_a_userlist').append("<li class=\"user\" id=\"" + user.id + "\">" + ordnances_selection_html_string + titans_selection_html_string + get_image_tag(user) + user.name + "</li>");
-      }
-      for (const user of channel_tree.channel_b.users) {
-        $('#team_b_userlist').append("<li class=\"user\" id=\"" + user.id + "\">" + ordnances_selection_html_string + titans_selection_html_string + get_image_tag(user) + user.name + "</li>");
+      // Go through all channels...
+      for (channel of channel_tree.team_channels) {
+        // ...and all users in that channel
+        for (const user of channel.users) {
+          $('#' + channel.id + '_userlist').append("<li class=\"user\" id=\"" + user.id + "\">" + ordnances_selection_html_string + titans_selection_html_string + get_image_tag(user) + user.name + "</li>");
+        }
       }
       update_according_to_selections(channel_tree, user_to_ordnance_string, user_to_titan_string);
     });
@@ -195,8 +207,9 @@
         $("#" + key).find(".dropbtn.titan").html('<img class="icon_image" src="/images/icons/titans/' + value + '.png" alt="' + value + '" width="30px" height="30px">');
       }
       // Update available items
-      display_available_for_channel(channel_tree.channel_a.users, '#team_a_available', user_to_ordnance, user_to_titan);
-      display_available_for_channel(channel_tree.channel_b.users, '#team_b_available', user_to_ordnance, user_to_titan);
+      for (channel of channel_tree.team_channels) {
+        display_available_for_channel(channel.users, '#' + channel.id + '_available', user_to_ordnance, user_to_titan);
+      }
     }
     socket.on('update selections', function (channel_tree, user_to_ordnance_string, user_to_titan_string) {
       update_according_to_selections(channel_tree, user_to_ordnance_string, user_to_titan_string);
