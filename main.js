@@ -24,8 +24,7 @@ const TOKEN = process.env.TOKEN;
 
 // Globally available channel IDs
 const GLOBAL_CHANNEL_ID_WAITING = process.env.GLOBAL_CHANNEL_ID_WAITING;
-const GLOBAL_CHANNEL_ID_MILITA = process.env.GLOBAL_CHANNEL_ID_MILITA;
-const GLOBAL_CHANNEL_ID_IMC = process.env.GLOBAL_CHANNEL_ID_IMC;
+const GLOBAL_LIST_TEAMCHANNEL_IDS = process.env.GLOBAL_TEAMCHANNEL_IDS.split(',')
 
 bot.login(TOKEN);
 
@@ -89,19 +88,15 @@ bot.on('message', msg => {
 
 function send_full_update_to_clients() {
   let channel_waiting = bot.channels.cache.get(GLOBAL_CHANNEL_ID_WAITING);
-  let channel_Milita = bot.channels.cache.get(GLOBAL_CHANNEL_ID_MILITA);
-  let channel_IMC = bot.channels.cache.get(GLOBAL_CHANNEL_ID_IMC);
+  let team_channels = GLOBAL_LIST_TEAMCHANNEL_IDS.map((channel) => bot.channels.cache.get(channel))
 
-  team_channels = [channel_Milita, channel_IMC];
   send_users_in_all_channels(channel_waiting, team_channels);
 }
 
 function send_selection_update_to_clients() {
   let channel_waiting = bot.channels.cache.get(GLOBAL_CHANNEL_ID_WAITING);
-  let channel_Milita = bot.channels.cache.get(GLOBAL_CHANNEL_ID_MILITA);
-  let channel_IMC = bot.channels.cache.get(GLOBAL_CHANNEL_ID_IMC);
+  let team_channels = GLOBAL_LIST_TEAMCHANNEL_IDS.map((channel) => bot.channels.cache.get(channel))
 
-  team_channels = [channel_Milita, channel_IMC];
   send_current_selections(channel_waiting, team_channels);
 }
 
