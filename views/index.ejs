@@ -170,9 +170,11 @@
       // Add team channels
       $('#channel_trees').append('<div id="team_channels"></div>')
       for (channel of channel_tree.team_channels) {
-        $('#team_channels').append(
-          '<div id="' + channel.id + '" class="teams channel"><h2>' + channel.name + '</h2><ul id="' + channel.id + '_userlist"></ul><div id="' + channel.id + '_available"></div></div>'
-        )
+        if (channel.users.length) { // Only draw teamchannel if it has users
+          $('#team_channels').append(
+            '<div id="' + channel.id + '" class="teams channel"><h2>' + channel.name + '</h2><ul id="' + channel.id + '_userlist"></ul><div id="' + channel.id + '_available"></div></div>'
+          )
+        }
       }
 
       // Sort channel list
