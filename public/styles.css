@@ -71,3 +71,31 @@ body {
 .dropdown:hover .dropbtn {
     background-color: darkgreen;
 }
+
+@media (prefers-color-scheme: dark) {
+    body {
+        background-color: #202225;
+        /* text colour: */
+        color: white;
+    }
+
+    .lobby {
+        background-color: #2f3136;
+    }
+
+    .teams {
+        background-color: #36393f;
+    }
+
+    .dropbtn {
+        background-color: #7289da;
+    }
+
+    .dropdown:hover .dropbtn {
+        background-color: #677bc4;
+    }
+
+    a {
+        color: #00b0f4;
+    }
+}
