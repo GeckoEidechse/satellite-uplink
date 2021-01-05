@@ -52,11 +52,6 @@ body {
     z-index: 1;
 }
 
-.dropdown-content a {
-    background-color: red;
-    z-index: 1;
-}
-
 .dropdown:hover .dropdown-content {
     display: block;
 }
