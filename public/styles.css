@@ -1,10 +1,5 @@
 body {
     font-family: Tahoma, Verdana, Arial, sans-serif;
-    background-color: white;
-}
-
-.lobby {
-    background-color: burlywood;
 }
 
 #team_channels {
@@ -15,7 +10,6 @@ body {
 
 .teams {
     flex: 450px; /* Adjust this value dynamically based on length of content */
-    background-color: aqua;
 }
 
 .icon_image {
@@ -36,10 +30,6 @@ body {
 }
 
 /* Dropdown button styles */
-.dropbtn {
-    background-color: green;
-}
-
 .dropdown {
     position: relative;
     display: inline-block;
@@ -56,6 +46,22 @@ body {
     display: block;
 }
 
+body {
+    background-color: white;
+}
+
+.lobby {
+    background-color: burlywood;
+}
+
+.teams {
+    background-color: aqua;
+}
+
 .dropdown:hover .dropbtn {
     background-color: darkgreen;
+}
+
+.dropbtn {
+    background-color: green;
 }
