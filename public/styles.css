@@ -57,19 +57,20 @@ body {
 }
 
 .lobby {
-    background-color: burlywood;
+    background-color: #f2f3f5;
 }
 
 .teams {
-    background-color: aqua;
+    background-color: #e3e5e8;
 }
 
 .dropbtn {
-    background-color: green;
+    color: white;
+    background-color: #7289da;
 }
 
 .dropdown:hover .dropbtn {
-    background-color: darkgreen;
+    background-color: #677bc4;
 }
 
 @media (prefers-color-scheme: dark) {
