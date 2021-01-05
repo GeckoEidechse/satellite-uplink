@@ -58,10 +58,10 @@ body {
     background-color: aqua;
 }
 
-.dropdown:hover .dropbtn {
-    background-color: darkgreen;
-}
-
 .dropbtn {
     background-color: green;
+}
+
+.dropdown:hover .dropbtn {
+    background-color: darkgreen;
 }
