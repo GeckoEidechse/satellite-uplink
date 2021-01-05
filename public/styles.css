@@ -30,6 +30,12 @@ body {
 }
 
 /* Dropdown button styles */
+.dropbtn {
+    border: none;
+    padding: 5px;
+    margin: 3px;
+    border-radius: 3px;
+}
 .dropdown {
     position: relative;
     display: inline-block;
