@@ -67,9 +67,5 @@
             "name": "Monarch",
             "max_per_team": 1
         }
-    ],
-    "grapple": {
-        "id": "grapple",
-        "max_per_team": 1
-    }
+    ]
 }
