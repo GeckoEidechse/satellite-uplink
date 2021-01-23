@@ -15,9 +15,9 @@
   <div id="channel_trees"></div>
 
   <div id="callout_container">
-    <label>
-      Show callouts: <input type="checkbox" onchange="toggle_callout_display(this);" />
-    </label>
+    <button class="dropbtn" onclick="toggle_callout_display('basic');">Show basic callouts</button>
+    <button class="dropbtn" onclick="toggle_callout_display('full');">Show full callouts</button>
+    <button class="dropbtn" onclick="toggle_callout_display('');">Clear callouts</button>
     <div id="inner_callout_container">
     </div>
   </div>
@@ -29,11 +29,14 @@
   <!-- Socket Library -->
   <script src="/socket.io/socket.io.js"></script>
   <script>
-    function toggle_callout_display(checkbox) {
+    function toggle_callout_display(callout_type) {
       // Clear HTML element
       $('#inner_callout_container').html("");
-      // Show iframe if box is checked
-      if (checkbox.checked) {
+      // Add iframe if appropriate button is pressed
+      if (callout_type == "basic") {
+        $('#inner_callout_container').append('<iframe src="https://docs.google.com/presentation/d/e/2PACX-1vSLW9PFz6kfB7F1TJnXY1uHnZLi89bExHlYRTgLcGOE6fJi6t23Cs5xKEqCGYYE_llgdUsBmYVdZTLf/embed?start=false&loop=false&delayms=3000" frameborder="0" width="960" height="569" allowfullscreen="true" mozallowfullscreen="true" webkitallowfullscreen="true"></iframe>');
+      }
+      if (callout_type == "full") {
         $('#inner_callout_container').append('<iframe src="https://docs.google.com/presentation/d/e/2PACX-1vTvuwVzSbumH9uWgYxMVSfTOxzpzehRQlS9g9CQ8NFAHdGynYiQprnV5XXGznnxVBdjISy-dDNy3OkF/embed?start=false&loop=false&delayms=3000" frameborder="0" width="960" height="569" allowfullscreen="true" mozallowfullscreen="true" webkitallowfullscreen="true"></iframe>');
       }
     }
