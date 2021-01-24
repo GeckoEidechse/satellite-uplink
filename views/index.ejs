@@ -16,17 +16,21 @@
 </head>
 
 <body>
-  <div id="channel_trees"></div>
+  <div id="page-container">
+    <div id="content-wrap">
+      <div id="channel_trees"></div>
 
-  <div id="callout_container">
-    <button class="dropbtn" onclick="toggle_callout_display('basic');">Show basic callouts</button>
-    <button class="dropbtn" onclick="toggle_callout_display('full');">Show full callouts</button>
-    <button class="dropbtn" onclick="toggle_callout_display('');">Clear callouts</button>
-    <div id="inner_callout_container">
+      <div id="callout_container">
+        <button class="dropbtn" onclick="toggle_callout_display('basic');">Show basic callouts</button>
+        <button class="dropbtn" onclick="toggle_callout_display('full');">Show full callouts</button>
+        <button class="dropbtn" onclick="toggle_callout_display('');">Clear callouts</button>
+        <div id="inner_callout_container">
+        </div>
+      </div>
     </div>
-  </div>
 
-  <div class="footer">Source on <a href="https://gitlab.com/GeckoEidechse/satellite-uplink">Gitlab</a></div>
+    <div class="footer">Source on <a href="https://gitlab.com/GeckoEidechse/satellite-uplink">Gitlab</a></div>
+  </div>
 
   <!-- jQuery -->
   <script src="jquery.min.js"></script>
