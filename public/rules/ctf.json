@@ -3,7 +3,7 @@
         {
             "id": "frag_grenade",
             "name": "Frag Grenade",
-            "max_per_team": 1
+            "max_per_team": 0
         },
         {
             "id": "arc_grenade",
