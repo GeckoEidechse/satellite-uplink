@@ -146,15 +146,11 @@
       $(html_object_id).append(available_html_string);
 
       // Show warnings if there is too many of a certain selection
-      for (const ordnance of rules_copy.ordnances) {
-        if (ordnance.max_per_team < 0 && ordnance.max_per_team != null) {
-          $(html_object_id).append('<p style="color: red">Too many: ' + ordnance.name + ' !</p>');
-        }
-      }
-      for (const titan of rules_copy.titans) {
-        if (titan.max_per_team < 0 && titan.max_per_team != null) {
-          console.log('Too many: ' + titan.id);
-          $(html_object_id).append('<p style="color: red">Too many: ' + titan.name + ' !</p>');
+      for (const item of [rules_copy.ordnances, rules_copy.titans]) {
+        for (const choice of item) {
+          if (choice.max_per_team < 0 && choice.max_per_team != null) {
+            $(html_object_id).append('<p style="color: red">Too many: ' + choice.name + ' !</p>');
+          }
         }
       }
     }
