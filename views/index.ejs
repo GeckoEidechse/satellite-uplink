@@ -230,10 +230,10 @@
       html_string += '<button class="dropbtn ' + id + '">' + name + '</button>';
       html_string += '<div class="dropdown-content">';
       // Add default empty selection
-      html_string += '<button class="not_selected" onclick="update_' + id + '(this);"><img class="icon_image" src="/images/icons/' + id + 's/not_selected.png" alt="not_selected" width="30px" height="30px"></button>';
+      html_string += '<button class="not_selected dropdown-menu-button" onclick="update_' + id + '(this);"><img class="icon_image" src="/images/icons/' + id + 's/not_selected.png" alt="not_selected" width="30px" height="30px"></button>';
 
       for (const option of options) {
-        html_string += '<button class="' + option.id + '" onclick="update_' + id + '(this);"><img class="icon_image" src="/images/icons/' + id + 's/' + option.id + '.png" alt="' + option.name + '" width="30px" height="30px"></button>'
+        html_string += '<button class="' + option.id + ' dropdown-menu-button" onclick="update_' + id + '(this);"><img class="icon_image" src="/images/icons/' + id + 's/' + option.id + '.png" alt="' + option.name + '" width="30px" height="30px"></button>'
       }
       html_string += '</div>';
       html_string += '</div>';
