@@ -23,6 +23,7 @@
   </div>
 
   <div class="footer">Source on <a href="https://gitlab.com/GeckoEidechse/satellite-uplink">Gitlab</a></div>
+
   <!-- jQuery -->
   <script src="jquery.min.js"></script>
 
@@ -45,6 +46,7 @@
     var socket = io();
 
     function get_image_tag(user) {
+      /* Returns the string of an HTML image element containing the users avatar */
       if (user.avatar)
         var url = "https://cdn.discordapp.com/avatars/" + user.id + "/" + user.avatar + ".png?size=256";
       else
@@ -56,6 +58,7 @@
     }
 
     function update_ordnance(select) {
+      /* Sends a message to the server with the user selected ordnance */
       var ordnance_update = {
         ordnance: select.classList[0],
         user_id: String(select.parentElement.parentElement.parentElement.id)
@@ -63,6 +66,7 @@
       socket.emit('update ordnance', ordnance_update);
     }
     function update_titan(select) {
+      /* Sends a message to the server with the user selected titan */
       var titan_update = {
         titan: select.classList[0],
         user_id: String(select.parentElement.parentElement.parentElement.id)
@@ -71,6 +75,7 @@
     }
 
     function decrement_available(selection, id) {
+      /* Decrement times a choice is available by one */
       if (selection.id == id && selection.max_per_team != null) {
         var result = {
           "id": selection.id,
@@ -83,6 +88,7 @@
     }
 
     function get_current_available(channel_users, user_to_ordnance, user_to_titan) {
+      /* Get currently available choices based on ruleset and selections */
       // Clone object
       var rules_copy = jQuery.extend(true, {}, rules);
       for (const user of channel_users) {
@@ -90,24 +96,33 @@
         let ordnance_selection = user_to_ordnance.get(user.id);
         if (ordnance_selection) { // Only run if user selected something
           // Remove the selection from available
-          rules_copy.ordnances = rules_copy.ordnances.map(function (element) {
-            return decrement_available(element, ordnance_selection);
-          });
+          rules_copy.ordnances = rules_copy.ordnances.map(
+            function (element) {
+              return decrement_available(element, ordnance_selection);
+            }
+          );
         }
         // Titan
         let titan_selection = user_to_titan.get(user.id);
         if (titan_selection) { // Only run if user selected something
           // Remove the selection from available
-          rules_copy.titans = rules_copy.titans.map(function (element) {
-            return decrement_available(element, titan_selection);
-          });
+          rules_copy.titans = rules_copy.titans.map(
+            function (element) {
+              return decrement_available(element, titan_selection);
+            }
+          );
         }
       }
       return rules_copy;
     }
 
     function display_available_for_channel(channel_users, html_object_id, user_to_ordnance, user_to_titan) {
+      /* Display available options based on ruleset and selections */
+
+      // Get currently available choices
       var rules_copy = get_current_available(channel_users, user_to_ordnance, user_to_titan);
+
+      // Create HTML string containing elements representing available choices
       var available_html_string = ''
       available_html_string += '<hr />' + '<b>Available:</b>' + '<br />' + '<div style="display: flex;">'
       for (const ordnance of rules_copy.ordnances) {
@@ -122,10 +137,14 @@
         }
       }
       available_html_string += '</div>'
+
       // Clear content
       $(html_object_id).html("");
+
       // Redraw
       $(html_object_id).append(available_html_string);
+
+      // Show warnings if there is too many of a certain selection
       for (const ordnance of rules_copy.ordnances) {
         if (ordnance.max_per_team < 0 && ordnance.max_per_team != null) {
           $(html_object_id).append('<p style="color: red">Too many: ' + ordnance.id + ' !</p>');
@@ -141,6 +160,7 @@
 
     // Call when channel tree has changed
     socket.on('update channel tree', function (channel_tree, user_to_ordnance_string, user_to_titan_string) {
+      /* Redraw channel tree if there have been changes */
 
       // Make maps from the received strings created from maps
       var user_to_ordnance = new Map(JSON.parse(user_to_ordnance_string));
@@ -184,6 +204,8 @@
     });
 
     function update_according_to_selections(channel_tree, user_to_ordnance_string, user_to_titan_string) {
+      /* Update user choices based on selections by other users */
+
       // Make maps from the received strings created from maps
       var user_to_ordnance = new Map(JSON.parse(user_to_ordnance_string));
       var user_to_titan = new Map(JSON.parse(user_to_titan_string));
