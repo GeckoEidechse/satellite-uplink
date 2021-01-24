@@ -79,6 +79,7 @@
       if (selection.id == id && selection.max_per_team != null) {
         var result = {
           "id": selection.id,
+          "name": selection.name,
           "max_per_team": selection.max_per_team - 1
         };
         return result;
