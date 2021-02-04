@@ -48,20 +48,19 @@ io.on('connection', (socket) => {
   });
 
 
-  socket.on('update ordnance', function (ordnance_update) {
+  socket.on('update choice', function (choice_update) {
     console.debug("Received data:");
-    console.debug(ordnance_update);
-    user_to_ordnance.set(ordnance_update.user_id, ordnance_update.ordnance);
-    console.debug(user_to_ordnance);
-    // send update back
-    send_selection_update_to_clients();
-  });
+    console.debug(choice_update);
 
-  socket.on('update titan', function (titan_update) {
-    console.debug("Received data:");
-    console.debug(titan_update);
-    user_to_titan.set(titan_update.user_id, titan_update.titan);
-    console.debug(user_to_titan);
+    // Apply ordnance or titan update depending on type
+    if (choice_update.option_name == 'ordnance') {
+      user_to_ordnance.set(choice_update.user_id, choice_update.choice);
+      console.debug(user_to_ordnance);
+    }
+    if (choice_update.option_name == 'titan') {
+      user_to_titan.set(choice_update.user_id, choice_update.choice);
+      console.debug(user_to_titan);
+    }
     // send update back
     send_selection_update_to_clients();
   });

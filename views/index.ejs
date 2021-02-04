@@ -65,21 +65,14 @@
       return tag;
     }
 
-    function update_ordnance(select) {
-      /* Sends a message to the server with the user selected ordnance */
-      var ordnance_update = {
-        ordnance: select.classList[0],
+    function update_choice(select, option_name) {
+      /* Sends a message to the server with the user selected choice */
+      var selection_update = {
+        option_name: option_name,
+        choice: select.classList[0],
         user_id: String(select.parentElement.parentElement.parentElement.id)
       }
-      socket.emit('update ordnance', ordnance_update);
-    }
-    function update_titan(select) {
-      /* Sends a message to the server with the user selected titan */
-      var titan_update = {
-        titan: select.classList[0],
-        user_id: String(select.parentElement.parentElement.parentElement.id)
-      }
-      socket.emit('update titan', titan_update);
+      socket.emit('update choice', selection_update);
     }
 
     function decrement_available(selection, id) {
@@ -238,10 +231,10 @@
       html_string += '<button class="dropbtn ' + id + '">' + name + '</button>';
       html_string += '<div class="dropdown-content">';
       // Add default empty selection
-      html_string += '<button class="not_selected dropdown-menu-button" onclick="update_' + id + '(this);"><img class="icon_image" src="/images/icons/' + id + 's/not_selected.png" alt="not_selected" width="30px" height="30px"></button>';
+      html_string += '<button class="not_selected dropdown-menu-button" onclick="update_choice(this, \'' + id + '\');"><img class="icon_image" src="/images/icons/' + id + 's/not_selected.png" alt="not_selected" width="30px" height="30px"></button>';
 
       for (const option of options) {
-        html_string += '<button class="' + option.id + ' dropdown-menu-button" onclick="update_' + id + '(this);"><img class="icon_image" src="/images/icons/' + id + 's/' + option.id + '.png" alt="' + option.name + '" width="30px" height="30px"></button>'
+        html_string += '<button class="' + option.id + ' dropdown-menu-button" onclick="update_choice(this, \'' + id + '\');"><img class="icon_image" src="/images/icons/' + id + 's/' + option.id + '.png" alt="' + option.name + '" width="30px" height="30px"></button>'
       }
       html_string += '</div>';
       html_string += '</div>';
