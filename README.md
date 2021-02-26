@@ -2,6 +2,8 @@
 
 A tool to display player choices in PUGs and sync them to other players
 
+![example image](images/satellite-uplink%20light-dark.png)
+
 ## Setup
 
 1. Install dependencies...
