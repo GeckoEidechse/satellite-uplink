@@ -38,6 +38,7 @@ app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 
 app.get('/', (req, res, next) => {
+  res.set('Permissions-Policy', 'interest-cohort=()'); // This disables FLoC for this site, c.f.: https://amifloced.org/
   res.render('index');
 });
 
