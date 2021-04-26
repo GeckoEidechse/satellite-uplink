@@ -89,32 +89,36 @@
         return selection;
     }
 
-    function get_current_available(channel_users, user_to_ordnance, user_to_titan) {
-      /* Get currently available choices based on ruleset and selections */
-      // Clone object
-      var rules_copy = jQuery.extend(true, {}, rules);
+    function get_current_available_per_category(channel_users, user_to_selection, rules_copy_category) {
+      // For all users
       for (const user of channel_users) {
-        // Ordnance
-        let ordnance_selection = user_to_ordnance.get(user.id);
-        if (ordnance_selection) { // Only run if user selected something
-          // Remove the selection from available
-          rules_copy.ordnances = rules_copy.ordnances.map(
+        // Get their selection
+        let selection = user_to_selection.get(user.id);
+        // Reduce number of available items if user selected one
+        if (selection) {
+          rules_copy_category = rules_copy_category.map(
             function (element) {
-              return decrement_available(element, ordnance_selection);
-            }
-          );
-        }
-        // Titan
-        let titan_selection = user_to_titan.get(user.id);
-        if (titan_selection) { // Only run if user selected something
-          // Remove the selection from available
-          rules_copy.titans = rules_copy.titans.map(
-            function (element) {
-              return decrement_available(element, titan_selection);
+              return decrement_available(element, selection);
             }
           );
         }
       }
+      return rules_copy_category;
+
+    }
+    function get_current_available_all(channel_users, user_to_ordnance, user_to_titan) {
+      /* Get currently available choices based on ruleset and selections */
+
+      // Clone object
+      var rules_copy = jQuery.extend(true, {}, rules);
+
+      // Get available for:
+      // - Ordnance
+      rules_copy.ordnances = get_current_available_per_category(channel_users, user_to_ordnance, rules_copy.ordnances);
+      // - Titan
+      rules_copy.titans = get_current_available_per_category(channel_users, user_to_titan, rules_copy.titans);
+
+      // Return modified ruleset showing available items
       return rules_copy;
     }
 
@@ -122,7 +126,7 @@
       /* Display available options based on ruleset and selections */
 
       // Get currently available choices
-      var rules_copy = get_current_available(channel_users, user_to_ordnance, user_to_titan);
+      var rules_copy = get_current_available_all(channel_users, user_to_ordnance, user_to_titan);
 
       // Create HTML string containing elements representing available choices
       var available_html_string = '';
