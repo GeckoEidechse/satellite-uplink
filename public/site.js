@@ -1,3 +1,8 @@
+// Global variables
+var ordnances_selection_html_string = '';
+var titans_selection_html_string = '';
+var socket = io();
+
 /**
  * Clear current callout display and create a new one based on selection
  * Creates an iframe and sets it as the content of the callout_container
@@ -14,9 +19,6 @@ function toggle_callout_display(callout_type) {
     $('#inner_callout_container').append('<iframe src="https://docs.google.com/presentation/d/e/2PACX-1vTvuwVzSbumH9uWgYxMVSfTOxzpzehRQlS9g9CQ8NFAHdGynYiQprnV5XXGznnxVBdjISy-dDNy3OkF/embed?start=false&loop=false&delayms=3000" frameborder="0" width="960" height="569" allowfullscreen="true" mozallowfullscreen="true" webkitallowfullscreen="true"></iframe>');
   }
 }
-var ordnances_selection_html_string = '';
-var titans_selection_html_string = '';
-var socket = io();
 
 /**
  * Returns the string of an HTML image element containing the users avatar
