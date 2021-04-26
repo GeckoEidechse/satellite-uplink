@@ -1,3 +1,8 @@
+/**
+ * Clear current callout display and create a new one based on selection
+ * Creates an iframe and sets it as the content of the callout_container
+ * @param {String} callout_type A string signifying the desired callout map
+ */
 function toggle_callout_display(callout_type) {
   // Clear HTML element
   $('#inner_callout_container').html("");
@@ -13,20 +18,30 @@ var ordnances_selection_html_string = '';
 var titans_selection_html_string = '';
 var socket = io();
 
+/**
+ * Returns the string of an HTML image element containing the users avatar
+ * @param {Object} user User object, consisting out of id, name, and avatar id
+ * @returns String representing the 
+ */
 function get_image_tag(user) {
-  /* Returns the string of an HTML image element containing the users avatar */
+  // Get user's avatar if they have one...
   if (user.avatar)
     var url = "https://cdn.discordapp.com/avatars/" + user.id + "/" + user.avatar + ".png?size=256";
   else
-    // If user has no icon, use default
+    // otherwise use a default
     var url = "https://discord.com/assets/dd4dbc0016779df1378e7812eabaa04d" + ".png?size=256";
 
   let tag = " <img src=\"" + url + "\" alt=\"(" + user.name + "'s avatar)\" style=\"border-radius: 50%; width: 30px\"> "
   return tag;
 }
 
+/**
+ * Sends a message to the server with the updated choice made by the user
+ * @param select Object of the pressed button
+ * @param {String} option_name Category id of the item to update
+ */
 function update_choice(select, option_name) {
-  /* Sends a message to the server with the user selected choice */
+
   var selection_update = {
     option_name: option_name,
     choice: select.classList[0],
@@ -35,8 +50,14 @@ function update_choice(select, option_name) {
   socket.emit('update choice', selection_update);
 }
 
+/**
+ * Decrement times a choice is available by one
+ * @param {Object} selection Object of selected item in ruleset
+ * @param {String} id id of item
+ * @returns Modified object of selected item in ruleset
+ */
 function decrement_available(selection, id) {
-  /* Decrement times a choice is available by one */
+
   if (selection.id == id && selection.max_per_team != null) {
     var result = {
       "id": selection.id,
@@ -49,6 +70,13 @@ function decrement_available(selection, id) {
     return selection;
 }
 
+/**
+ * Get currently available choices based on ruleset and selections for a specific category
+ * @param {Array} channel_users List of user objects in specific channel.
+ * @param {Map} user_to_selection Map from user id to item id
+ * @param rules_copy_category Scope of the current category of copy of ruleset
+ * @returns Modified ruleset object adjusted by selected items in the current category
+ */
 function get_current_available_per_category(channel_users, user_to_selection, rules_copy_category) {
   // For all users
   for (const user of channel_users) {
@@ -66,9 +94,15 @@ function get_current_available_per_category(channel_users, user_to_selection, ru
   return rules_copy_category;
 
 }
-function get_current_available_all(channel_users, user_to_ordnance, user_to_titan) {
-  /* Get currently available choices based on ruleset and selections */
 
+/**
+ * Get currently available choices based on ruleset and selections
+ * @param {Array} channel_users List of user objects in specific channel.
+ * @param {Map} user_to_ordnance Map from user id to item id
+ * @param {Map} user_to_titan Map from user id to item id
+ * @returns Copy of the ruleset object adjusted by selected items
+ */
+function get_current_available_all(channel_users, user_to_ordnance, user_to_titan) {
   // Clone object
   var rules_copy = jQuery.extend(true, {}, rules);
 
@@ -82,8 +116,14 @@ function get_current_available_all(channel_users, user_to_ordnance, user_to_tita
   return rules_copy;
 }
 
+/**
+ * Display available items based on ruleset and selections
+ * @param {Array} channel_users List of user objects in specific channel.
+ * @param {String} html_object_id HTML id of the HTML object containing the current channel
+ * @param {Map} user_to_ordnance Map from user id to item id
+ * @param {Map} user_to_titan Map from user id to item id
+ */
 function display_available_for_channel(channel_users, html_object_id, user_to_ordnance, user_to_titan) {
-  /* Display available options based on ruleset and selections */
 
   // Get currently available choices
   var rules_copy = get_current_available_all(channel_users, user_to_ordnance, user_to_titan);
@@ -165,6 +205,12 @@ socket.on('update channel tree', function (channel_tree, user_to_ordnance_string
   update_according_to_selections(channel_tree, user_to_ordnance_string, user_to_titan_string);
 });
 
+/**
+ * 
+ * @param {*} channel_tree 
+ * @param {string} user_to_ordnance_string 
+ * @param {string} user_to_titan_string 
+ */
 function update_according_to_selections(channel_tree, user_to_ordnance_string, user_to_titan_string) {
   /* Update user choices based on selections by other users */
 
@@ -188,6 +234,12 @@ socket.on('update selections', function (channel_tree, user_to_ordnance_string, 
   update_according_to_selections(channel_tree, user_to_ordnance_string, user_to_titan_string);
 });
 
+/**
+ * Creates a string representing a dropdown button in HTML
+ * @param name Category name
+ * @param id Category id
+ * @param options The different items to choose from
+ */
 function get_html_selection_string(name, id, options) {
   // Creates HTML string that contains list of `options`
   let html_string = '';
