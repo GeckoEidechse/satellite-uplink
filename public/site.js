@@ -166,10 +166,6 @@ function display_available_for_channel(channel_users, html_object_id, user_to_or
 socket.on('update channel tree', function (channel_tree, user_to_ordnance_string, user_to_titan_string) {
   /* Redraw channel tree if there have been changes */
 
-  // Make maps from the received strings created from maps
-  var user_to_ordnance = new Map(JSON.parse(user_to_ordnance_string));
-  var user_to_titan = new Map(JSON.parse(user_to_titan_string));
-
   // Clear previous content
   $('#channel_trees').html("");
 
