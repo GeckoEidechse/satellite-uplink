@@ -5,11 +5,10 @@
             "id": "ctf",
             "name": "CTF",
             "rule_names": [
-                "ordnances",
-                "titans",
-                "charge_rifle"
+                "ordnance",
+                "titan"
             ],
-            "ordnances": {
+            "ordnance": {
                 "name": "Ordnance",
                 "type": "selection",
                 "choices": [
@@ -45,7 +44,7 @@
                     }
                 ]
             },
-            "titans": {
+            "titan": {
                 "name": "Titan",
                 "type": "selection",
                 "choices": [
@@ -85,12 +84,6 @@
                         "max_per_team": 1
                     }
                 ]
-            },
-            "charge_rifle": {
-                "type": "binary",
-                "id": "charge_rifle",
-                "name": "Charge Rifle",
-                "max_per_team": 1
             }
         }
     ]

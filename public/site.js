@@ -1,6 +1,5 @@
 // Global variables
-var ordnances_selection_html_string = '';
-var titans_selection_html_string = '';
+var selection_html_strings = '';
 var socket = io();
 
 /**
@@ -110,9 +109,9 @@ function get_current_available_all(channel_users, user_to_ordnance, user_to_tita
 
   // Get available for:
   // - Ordnance
-  rules_copy.ordnances = get_current_available_per_category(channel_users, user_to_ordnance, rules_copy.ordnances.choices);
+  rules_copy.ordnances = get_current_available_per_category(channel_users, user_to_ordnance, rules_copy.ordnance.choices);
   // - Titan
-  rules_copy.titans = get_current_available_per_category(channel_users, user_to_titan, rules_copy.titans.choices);
+  rules_copy.titans = get_current_available_per_category(channel_users, user_to_titan, rules_copy.titan.choices);
 
   // Return modified ruleset showing available items
   return rules_copy;
@@ -197,7 +196,14 @@ socket.on('update channel tree', function (channel_tree, user_to_ordnance_string
   for (channel of channel_tree.team_channels) {
     // ...and all users in that channel
     for (const user of channel.users) {
-      $('#' + channel.id + '_userlist').append("<li class=\"user\" id=\"" + user.id + "\">" + ordnances_selection_html_string + titans_selection_html_string + get_image_tag(user) + user.name + "</li>");
+      // Add list entry for user
+      let user_list_entry_string = "<li class=\"user\" id=\"" + user.id + "\">";
+      // Buttons for different categories
+      for (selection_html_string of selection_html_strings) {
+        user_list_entry_string += selection_html_string;
+      }
+      user_list_entry_string += get_image_tag(user) + user.name + "</li>"
+      $('#' + channel.id + '_userlist').append(user_list_entry_string);
     }
   }
   update_according_to_selections(channel_tree, user_to_ordnance_string, user_to_titan_string);
@@ -282,8 +288,12 @@ $.ajax({
 current_ruleset = get_ruleset(rules, rules.default);
 
 // Apply rules
-ordnances_selection_html_string = get_html_selection_string(current_ruleset.ordnances.name, 'ordnance', current_ruleset.ordnances.choices);
-titans_selection_html_string = get_html_selection_string(current_ruleset.titans.name, 'titan', current_ruleset.titans.choices);
-
+for(rule_name of current_ruleset.rule_names) {
+  selection_html_strings += get_html_selection_string(
+      current_ruleset[rule_name].name,
+      rule_name,
+      current_ruleset[rule_name].choices
+  );
+}
 // Get channel tree and selections on load
 window.onload = socket.emit('new client');
