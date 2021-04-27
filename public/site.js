@@ -106,13 +106,13 @@ function get_current_available_per_category(channel_users, user_to_selection, ru
  */
 function get_current_available_all(channel_users, user_to_ordnance, user_to_titan) {
   // Clone object
-  var rules_copy = jQuery.extend(true, {}, rules);
+  var rules_copy = jQuery.extend(true, {}, current_ruleset);
 
   // Get available for:
   // - Ordnance
-  rules_copy.ordnances = get_current_available_per_category(channel_users, user_to_ordnance, rules_copy.ordnances);
+  rules_copy.ordnances = get_current_available_per_category(channel_users, user_to_ordnance, rules_copy.ordnances.choices);
   // - Titan
-  rules_copy.titans = get_current_available_per_category(channel_users, user_to_titan, rules_copy.titans);
+  rules_copy.titans = get_current_available_per_category(channel_users, user_to_titan, rules_copy.titans.choices);
 
   // Return modified ruleset showing available items
   return rules_copy;
@@ -255,8 +255,20 @@ function get_html_selection_string(name, id, options) {
   return html_string;
 }
 
+/**
+ * Returns the requested ruleset
+ * @param {Object} rules The full rules object
+ * @param {String} ruleset_id The id of the requested ruleset
+ * @returns The requested ruleset
+ */
+function get_ruleset(rules, ruleset_id) {
+  return rules.rule_sets.find(obj => {
+    return obj.id === ruleset_id // Get the ruleset with the matchind id
+  })
+}
+
 // Load ruleset
-var url = '/rules/ctf.json';
+var url = '/rules.json';
 var rules = {};
 $.ajax({
   type: 'GET',
@@ -266,9 +278,12 @@ $.ajax({
   async: false
 });
 
+// Get the default ruleset
+current_ruleset = get_ruleset(rules, rules.default);
+
 // Apply rules
-ordnances_selection_html_string = get_html_selection_string('Ordnance', 'ordnance', rules.ordnances);
-titans_selection_html_string = get_html_selection_string('Titan', 'titan', rules.titans);
+ordnances_selection_html_string = get_html_selection_string(current_ruleset.ordnances.name, 'ordnance', current_ruleset.ordnances.choices);
+titans_selection_html_string = get_html_selection_string(current_ruleset.titans.name, 'titan', current_ruleset.titans.choices);
 
 // Get channel tree and selections on load
 window.onload = socket.emit('new client');

@@ -1,0 +1,97 @@
+{
+    "default": "ctf",
+    "rule_sets": [
+        {
+            "id": "ctf",
+            "name": "CTF",
+            "rule_names": [
+                "ordnances",
+                "titans",
+                "charge_rifle"
+            ],
+            "ordnances": {
+                "name": "Ordnance",
+                "type": "selection",
+                "choices": [
+                    {
+                        "id": "frag_grenade",
+                        "name": "Frag Grenade",
+                        "max_per_team": 0
+                    },
+                    {
+                        "id": "arc_grenade",
+                        "name": "Arc Grenade",
+                        "max_per_team": 1
+                    },
+                    {
+                        "id": "fire_star",
+                        "name": "Firestar",
+                        "max_per_team": null
+                    },
+                    {
+                        "id": "grav_star",
+                        "name": "Gravity Star",
+                        "max_per_team": 1
+                    },
+                    {
+                        "id": "smoke_grenade",
+                        "name": "Electric Smoke Grenade",
+                        "max_per_team": 1
+                    },
+                    {
+                        "id": "satchel_charge",
+                        "name": "Satch charge",
+                        "max_per_team": 1
+                    }
+                ]
+            },
+            "titans": {
+                "name": "Titan",
+                "type": "selection",
+                "choices": [
+                    {
+                        "id": "ion",
+                        "name": "Ion",
+                        "max_per_team": 1
+                    },
+                    {
+                        "id": "scorch",
+                        "name": "Scorch",
+                        "max_per_team": 1
+                    },
+                    {
+                        "id": "northstar",
+                        "name": "Northstar",
+                        "max_per_team": 1
+                    },
+                    {
+                        "id": "ronin",
+                        "name": "Ronin",
+                        "max_per_team": 1
+                    },
+                    {
+                        "id": "tone",
+                        "name": "Tone",
+                        "max_per_team": 1
+                    },
+                    {
+                        "id": "legion",
+                        "name": "Legion",
+                        "max_per_team": 1
+                    },
+                    {
+                        "id": "monarch",
+                        "name": "Monarch",
+                        "max_per_team": 1
+                    }
+                ]
+            },
+            "charge_rifle": {
+                "type": "binary",
+                "id": "charge_rifle",
+                "name": "Charge Rifle",
+                "max_per_team": 1
+            }
+        }
+    ]
+}
