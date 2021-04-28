@@ -86,6 +86,10 @@ bot.on('message', msg => {
   // Do nothing on msg
 });
 
+/**
+ * Gets watched channel objects and calls the appropriate function to send an update to the client
+ * which causes it to rebuild the channel tree and update selections
+ */
 function send_full_update_to_clients() {
   let channel_waiting = bot.channels.cache.get(GLOBAL_CHANNEL_ID_WAITING);
   let team_channels = GLOBAL_LIST_TEAMCHANNEL_IDS.map((channel) => bot.channels.cache.get(channel))
@@ -93,6 +97,10 @@ function send_full_update_to_clients() {
   send_users_in_all_channels(channel_waiting, team_channels);
 }
 
+/**
+ * Gets watched channel objects and calls the appropriate function to send an update to the client
+ * which causes it to update selections
+ */
 function send_selection_update_to_clients() {
   let channel_waiting = bot.channels.cache.get(GLOBAL_CHANNEL_ID_WAITING);
   let team_channels = GLOBAL_LIST_TEAMCHANNEL_IDS.map((channel) => bot.channels.cache.get(channel))
@@ -100,6 +108,11 @@ function send_selection_update_to_clients() {
   send_current_selections(channel_waiting, team_channels);
 }
 
+/**
+ * Takes channel and returns a list of users in that channel
+ * @param {Object} channel Object describing a specific channel
+ * @returns List of user objects in a channel in the form [{id, name, avatar}, ...]
+ */
 function get_users_in_channel(channel) {
   var user_list = [];
 
@@ -125,6 +138,11 @@ function get_users_in_channel(channel) {
   return user_list;
 }
 
+/**
+ * Returns an array of user objects that are currently in one of the given channels
+ * @param {List} list_of_channels List of channels to get user ids from
+ * @returns An array of objects
+ */
 function get_all_users_in_channels(list_of_channels) {
   all_users = new Array();
   for (channel of list_of_channels) {
@@ -136,6 +154,11 @@ function get_all_users_in_channels(list_of_channels) {
   return all_users;
 }
 
+/**
+ * Returns a set of user ids created from a list of user objects
+ * @param users List of user objects
+ * @returns A set of user ids
+ */
 function get_set_of_user_ids(users) {
   var set_of_user_ids = new Set();
   for (user of users) {
@@ -188,6 +211,12 @@ function get_data_to_send(channel_lobby, team_channels) {
   return { channel_tree_object: channel_tree_object, user_to_ordnance_string: user_to_ordnance_string, user_to_titan_string: user_to_titan_string };
 }
 
+/**
+ * Sends the channel tree object and user selections to the client
+ * Causes the client to update the tree and user selections
+ * @param {Object} channel_lobby Lobby channel
+ * @param {List} team_channels List of channels (excluding the lobby channel)
+ */
 function send_users_in_all_channels(channel_lobby, team_channels) {
   // Get data to send
   const { channel_tree_object, user_to_ordnance_string, user_to_titan_string } = get_data_to_send(channel_lobby, team_channels);
@@ -197,6 +226,12 @@ function send_users_in_all_channels(channel_lobby, team_channels) {
   return;
 }
 
+/**
+ * Sends the channel tree object and user selections to the client
+ * Causes the client to update only user selections
+ * @param {Object} channel_lobby Lobby channel
+ * @param {List} team_channels List of channels (excluding the lobby channel)
+ */
 function send_current_selections(channel_lobby, team_channels) {
   // Get data to send
   const { channel_tree_object, user_to_ordnance_string, user_to_titan_string } = get_data_to_send(channel_lobby, team_channels);
@@ -206,6 +241,12 @@ function send_current_selections(channel_lobby, team_channels) {
   return;
 }
 
+/**
+ * Takes the given mapping and removes all users that are no longer in the given set of user ids
+ * i.e. left a team channel
+ * @param {Map} mapping Mapping from user id to their selected item in that category
+ * @param {Set} set_of_user_ids Set containing all user ids (excluding those in the lobby channel)
+ */
 function remove_inactive_from_mapping(mapping, set_of_user_ids) {
   console.log("remove_inactive_from_mapping");
   console.log("Mapping:", mapping);
@@ -216,6 +257,8 @@ function remove_inactive_from_mapping(mapping, set_of_user_ids) {
   }
 }
 
+// Gets called whenever there's a change in the channel voice state.
+// This includes a user leaving/joining and someone (un)muting themselves
 bot.on('voiceStateUpdate', (oldMember, newMember) => {
 
   send_full_update_to_clients();
