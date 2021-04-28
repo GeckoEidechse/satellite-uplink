@@ -227,12 +227,25 @@ function update_according_to_selections(channel_tree, user_to_category_item) {
   var user_to_titan = new Map(JSON.parse(user_to_titan_string));
 
   // Set the according selection for the according users
-  for (const [key, value] of user_to_ordnance.entries()) {
-    $("#" + key).find(".dropbtn.ordnance").html('<img class="icon_image" src="/images/icons/ordnances/' + value + '.png" alt="' + value + '" width="30px" height="30px">');
+  for (category of current_ruleset.rule_names) {
+
+    // Get the mapping for current category
+    user_to_selection_object = user_to_category_item.find(element => element.id == category);
+
+    // Skip if we found no mapping
+    if (user_to_selection_object == null) {
+      console.log("Received no mapping for \"" + category + "\" skipping...");
+      continue;
+    }
+
+    // user_to_selection_string = user_to_selection_object.mapping_string;
+    var user_to_selection = new Map(JSON.parse(user_to_selection_object.mapping_string));
+
+    for (const [key, value] of user_to_selection.entries()) {
+      $("#" + key).find(".dropbtn." + category).html('<img class="icon_image" src="/images/icons/' + category + 's/' + value + '.png" alt="' + value + '" width="30px" height="30px">');
+    }
   }
-  for (const [key, value] of user_to_titan.entries()) {
-    $("#" + key).find(".dropbtn.titan").html('<img class="icon_image" src="/images/icons/titans/' + value + '.png" alt="' + value + '" width="30px" height="30px">');
-  }
+
   // Update available items
   for (channel of channel_tree.team_channels) {
     display_available_for_channel(channel.users, '#' + channel.id + '_available', user_to_ordnance, user_to_titan);
