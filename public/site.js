@@ -121,27 +121,42 @@ function get_current_available_all(channel_users, user_to_ordnance, user_to_tita
  * Display available items based on ruleset and selections
  * @param {Array} channel_users List of user objects in specific channel.
  * @param {String} html_object_id HTML id of the HTML object containing the current channel
- * @param {Map} user_to_ordnance Map from user id to item id
- * @param {Map} user_to_titan Map from user id to item id
+ * @param {Object} user_to_category_item Objects of selection mappings
  */
-function display_available_for_channel(channel_users, html_object_id, user_to_ordnance, user_to_titan) {
+function display_available_for_channel(channel_users, html_object_id, user_to_category_item) {
 
-  // Get currently available choices
-  var rules_copy = get_current_available_all(channel_users, user_to_ordnance, user_to_titan);
+  // Clone object
+  var rules_copy = jQuery.extend(true, {}, current_ruleset);
+
+  // Set the according selection for the according users
+  for (category of current_ruleset.rule_names) {
+
+    // Get the mapping for current category
+    user_to_selection_object = user_to_category_item.find(element => element.id == category);
+
+    // Skip if we found no mapping
+    if (user_to_selection_object == null) {
+      console.log("Received no mapping for \"" + category + "\" skipping...");
+      continue;
+    }
+
+    // user_to_selection_string = user_to_selection_object.mapping_string;
+    var user_to_selection = new Map(JSON.parse(user_to_selection_object.mapping_string));
+
+    // Update available items for the current category
+    rules_copy[category].choices = get_current_available_per_category(channel_users, user_to_selection, rules_copy[category].choices);
+  }
 
   // Create HTML string containing elements representing available choices
   var available_html_string = '';
   available_html_string += '<hr />' + '<b>Available:</b>' + '<br />' + '<div style="display: flex;">';
-  for (const ordnance of rules_copy.ordnances) {
-    if (ordnance.max_per_team > 0 || ordnance.max_per_team == null) {
-      available_html_string += '<div style="margin: 1px">' + '<img src="/images/icons/ordnances/' + ordnance.id + '.png" alt="' + ordnance.name + '" title="' + ordnance.name + '" width="30px" height="30px" style="border-radius: 15%;"></img> ' + '</div>';
+  for (const category of rules_copy.rule_names) {
+    for (const item of rules_copy[category].choices) {
+      if (item.max_per_team > 0 || item.max_per_team == null) {
+        available_html_string += '<div style="margin: 1px">' + '<img src="/images/icons/' + category + 's/' + item.id + '.png" alt="' + item.name + '" title="' + item.name + '" width="30px" height="30px" style="border-radius: 15%;"></img> ' + '</div>';
+      }  
     }
-  }
-  available_html_string += '</div>' + '<div style="display: flex;">'
-  for (const titan of rules_copy.titans) {
-    if (titan.max_per_team > 0 || titan.max_per_team == null) {
-      available_html_string += '<div style="margin: 1px">' + '<img src="/images/icons/titans/' + titan.id + '.png" alt="' + titan.name + '" title="' + titan.name + '" width="30px" height="30px"></img> ' + '</div>';
-    }
+    available_html_string += '</div>' + '<div style="display: flex;">'
   }
   available_html_string += '</div>';
 
@@ -152,10 +167,10 @@ function display_available_for_channel(channel_users, html_object_id, user_to_or
   $(html_object_id).append(available_html_string);
 
   // Show warnings if there is too many of a certain selection
-  for (const item of [rules_copy.ordnances, rules_copy.titans]) {
-    for (const choice of item) {
-      if (choice.max_per_team < 0 && choice.max_per_team != null) {
-        $(html_object_id).append('<p style="color: red">Too many: ' + choice.name + ' !</p>');
+  for (rule_name of current_ruleset.rule_names) {
+    for (const item of rules_copy[rule_name].choices) {
+      if (item.max_per_team < 0 && item.max_per_team != null) {
+        $(html_object_id).append('<p style="color: red">Too many: ' + item.name + ' !</p>');
       }
     }
   }
@@ -218,14 +233,6 @@ socket.on('update channel tree', function (channel_tree, user_to_category_item) 
 function update_according_to_selections(channel_tree, user_to_category_item) {
   /* Update user choices based on selections by other users */
 
-  // Get titan and ordnance mapping strings from passed element.
-  var user_to_ordnance_string = user_to_category_item.find(element => element.id == 'ordnance').mapping_string;
-  var user_to_titan_string = user_to_category_item.find(element => element.id == 'titan').mapping_string;
-
-  // Make maps from the received strings created from maps
-  var user_to_ordnance = new Map(JSON.parse(user_to_ordnance_string));
-  var user_to_titan = new Map(JSON.parse(user_to_titan_string));
-
   // Set the according selection for the according users
   for (category of current_ruleset.rule_names) {
 
@@ -248,7 +255,7 @@ function update_according_to_selections(channel_tree, user_to_category_item) {
 
   // Update available items
   for (channel of channel_tree.team_channels) {
-    display_available_for_channel(channel.users, '#' + channel.id + '_available', user_to_ordnance, user_to_titan);
+    display_available_for_channel(channel.users, '#' + channel.id + '_available', user_to_category_item);
   }
 }
 socket.on('update selections', function (channel_tree, user_to_category_item) {
