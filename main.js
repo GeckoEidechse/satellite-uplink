@@ -31,55 +31,54 @@ bot.login(TOKEN);
 // ========================================
 
 /**
- * Webserver part
- */
-app.use(express.static(path.join(__dirname, 'public')));
-app.set('views', path.join(__dirname, 'views'));
-app.set('view engine', 'ejs');
-
-app.get('/', (req, res, next) => {
-  res.set('Permissions-Policy', 'interest-cohort=()'); // This disables FLoC for this site, c.f.: https://amifloced.org/
-  res.render('index');
-});
-
-io.on('connection', (socket) => {
-  console.log("a user connected via socket!");
-  socket.on('disconnect', () => {
-    console.log("a user disconnected");
-  });
-
-
-  socket.on('update choice', function (choice_update) {
-    console.debug("Received data:");
-    console.debug(choice_update);
-
-    // Apply ordnance or titan update depending on type
-    if (choice_update.option_name == 'ordnance') {
-      user_to_ordnance.set(choice_update.user_id, choice_update.choice);
-      console.debug(user_to_ordnance);
-    }
-    if (choice_update.option_name == 'titan') {
-      user_to_titan.set(choice_update.user_id, choice_update.choice);
-      console.debug(user_to_titan);
-    }
-    // send update back
-    send_selection_update_to_clients();
-  });
-
-  socket.on('new client', function () {
-    // Update if a new client joins
-    send_full_update_to_clients(); // TODO update only for new client
-  });
-});
-server.listen(PORT, () => {
-  console.log("Server listening on port: " + PORT)
-});
-
-/**
  * Discord Obeserver Bot part
  */
 bot.on('ready', () => {
   console.info(`Logged in as ${bot.user.tag}!`);
+  /**
+   * Webserver part
+   */
+  app.use(express.static(path.join(__dirname, 'public')));
+  app.set('views', path.join(__dirname, 'views'));
+  app.set('view engine', 'ejs');
+
+  app.get('/', (req, res, next) => {
+    res.set('Permissions-Policy', 'interest-cohort=()'); // This disables FLoC for this site, c.f.: https://amifloced.org/
+    res.render('index');
+  });
+
+  io.on('connection', (socket) => {
+    console.log("a user connected via socket!");
+    socket.on('disconnect', () => {
+      console.log("a user disconnected");
+    });
+
+
+    socket.on('update choice', function (choice_update) {
+      console.debug("Received data:");
+      console.debug(choice_update);
+
+      // Apply ordnance or titan update depending on type
+      if (choice_update.option_name == 'ordnance') {
+        user_to_ordnance.set(choice_update.user_id, choice_update.choice);
+        console.debug(user_to_ordnance);
+      }
+      if (choice_update.option_name == 'titan') {
+        user_to_titan.set(choice_update.user_id, choice_update.choice);
+        console.debug(user_to_titan);
+      }
+      // send update back
+      send_selection_update_to_clients();
+    });
+
+    socket.on('new client', function () {
+      // Update if a new client joins
+      send_full_update_to_clients(); // TODO update only for new client
+    });
+  });
+  server.listen(PORT, () => {
+    console.log("Server listening on port: " + PORT)
+  });
 });
 
 bot.on('message', msg => {
@@ -220,7 +219,7 @@ function get_data_to_send(channel_lobby, team_channels) {
   ]
 
   // Return data
-  return { channel_tree_object: channel_tree_object, user_to_category_item: user_to_category_item};
+  return { channel_tree_object: channel_tree_object, user_to_category_item: user_to_category_item };
 }
 
 /**
