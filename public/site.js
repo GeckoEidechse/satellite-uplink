@@ -97,27 +97,6 @@ function get_current_available_per_category(channel_users, user_to_selection, ru
 }
 
 /**
- * Get currently available choices based on ruleset and selections
- * @param {Array} channel_users List of user objects in specific channel.
- * @param {Map} user_to_ordnance Map from user id to item id
- * @param {Map} user_to_titan Map from user id to item id
- * @returns Copy of the ruleset object adjusted by selected items
- */
-function get_current_available_all(channel_users, user_to_ordnance, user_to_titan) {
-  // Clone object
-  var rules_copy = jQuery.extend(true, {}, current_ruleset);
-
-  // Get available for:
-  // - Ordnance
-  rules_copy.ordnances = get_current_available_per_category(channel_users, user_to_ordnance, rules_copy.ordnance.choices);
-  // - Titan
-  rules_copy.titans = get_current_available_per_category(channel_users, user_to_titan, rules_copy.titan.choices);
-
-  // Return modified ruleset showing available items
-  return rules_copy;
-}
-
-/**
  * Display available items based on ruleset and selections
  * @param {Array} channel_users List of user objects in specific channel.
  * @param {String} html_object_id HTML id of the HTML object containing the current channel
