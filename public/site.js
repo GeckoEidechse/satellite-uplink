@@ -162,7 +162,7 @@ function display_available_for_channel(channel_users, html_object_id, user_to_or
 }
 
 // Call when channel tree has changed
-socket.on('update channel tree', function (channel_tree, user_to_ordnance_string, user_to_titan_string) {
+socket.on('update channel tree', function (channel_tree, user_to_category_item) {
   /* Redraw channel tree if there have been changes */
 
   // Clear previous content
@@ -206,7 +206,7 @@ socket.on('update channel tree', function (channel_tree, user_to_ordnance_string
       $('#' + channel.id + '_userlist').append(user_list_entry_string);
     }
   }
-  update_according_to_selections(channel_tree, user_to_ordnance_string, user_to_titan_string);
+  update_according_to_selections(channel_tree, user_to_category_item);
 });
 
 /**
@@ -215,8 +215,12 @@ socket.on('update channel tree', function (channel_tree, user_to_ordnance_string
  * @param {string} user_to_ordnance_string 
  * @param {string} user_to_titan_string 
  */
-function update_according_to_selections(channel_tree, user_to_ordnance_string, user_to_titan_string) {
+function update_according_to_selections(channel_tree, user_to_category_item) {
   /* Update user choices based on selections by other users */
+
+  // Get titan and ordnance mapping strings from passed element.
+  var user_to_ordnance_string = user_to_category_item.find(element => element.id == 'ordnance').mapping_string;
+  var user_to_titan_string = user_to_category_item.find(element => element.id == 'titan').mapping_string;
 
   // Make maps from the received strings created from maps
   var user_to_ordnance = new Map(JSON.parse(user_to_ordnance_string));
@@ -234,8 +238,8 @@ function update_according_to_selections(channel_tree, user_to_ordnance_string, u
     display_available_for_channel(channel.users, '#' + channel.id + '_available', user_to_ordnance, user_to_titan);
   }
 }
-socket.on('update selections', function (channel_tree, user_to_ordnance_string, user_to_titan_string) {
-  update_according_to_selections(channel_tree, user_to_ordnance_string, user_to_titan_string);
+socket.on('update selections', function (channel_tree, user_to_category_item) {
+  update_according_to_selections(channel_tree, user_to_category_item);
 });
 
 /**

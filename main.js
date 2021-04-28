@@ -207,8 +207,20 @@ function get_data_to_send(channel_lobby, team_channels) {
   let user_to_ordnance_string = JSON.stringify(Array.from(user_to_ordnance));
   let user_to_titan_string = JSON.stringify(Array.from(user_to_titan));
 
+  // Create object to send manually. In the future this should be made generic
+  let user_to_category_item = [
+    {
+      id: 'ordnance',
+      mapping_string: user_to_ordnance_string
+    },
+    {
+      id: 'titan',
+      mapping_string: user_to_titan_string
+    }
+  ]
+
   // Return data
-  return { channel_tree_object: channel_tree_object, user_to_ordnance_string: user_to_ordnance_string, user_to_titan_string: user_to_titan_string };
+  return { channel_tree_object: channel_tree_object, user_to_category_item: user_to_category_item};
 }
 
 /**
@@ -219,9 +231,9 @@ function get_data_to_send(channel_lobby, team_channels) {
  */
 function send_users_in_all_channels(channel_lobby, team_channels) {
   // Get data to send
-  const { channel_tree_object, user_to_ordnance_string, user_to_titan_string } = get_data_to_send(channel_lobby, team_channels);
+  const { channel_tree_object, user_to_category_item } = get_data_to_send(channel_lobby, team_channels);
   // Send message
-  io.emit('update channel tree', channel_tree_object, user_to_ordnance_string, user_to_titan_string);
+  io.emit('update channel tree', channel_tree_object, user_to_category_item);
 
   return;
 }
@@ -234,9 +246,9 @@ function send_users_in_all_channels(channel_lobby, team_channels) {
  */
 function send_current_selections(channel_lobby, team_channels) {
   // Get data to send
-  const { channel_tree_object, user_to_ordnance_string, user_to_titan_string } = get_data_to_send(channel_lobby, team_channels);
+  const { channel_tree_object, user_to_category_item } = get_data_to_send(channel_lobby, team_channels);
   // Send message
-  io.emit('update selections', channel_tree_object, user_to_ordnance_string, user_to_titan_string);
+  io.emit('update selections', channel_tree_object, user_to_category_item);
 
   return;
 }
