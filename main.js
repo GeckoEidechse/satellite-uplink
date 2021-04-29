@@ -11,9 +11,11 @@ const server = require("http").createServer(app);
 const io = require("socket.io")(server);
 const PORT = 8000;
 
-// Store map from user to ordnance
-var user_to_ordnance = new Map();
-var user_to_titan = new Map();
+// Store map from user to selection in object
+var user_to_selection = {
+    ordnance: new Map(),
+    titan: new Map()
+};
 
 // ========================================
 
@@ -60,12 +62,12 @@ bot.on('ready', () => {
 
       // Apply ordnance or titan update depending on type
       if (choice_update.option_name == 'ordnance') {
-        user_to_ordnance.set(choice_update.user_id, choice_update.choice);
-        console.debug(user_to_ordnance);
+        user_to_selection.ordnance.set(choice_update.user_id, choice_update.choice);
+        console.debug(user_to_selection.ordnance);
       }
       if (choice_update.option_name == 'titan') {
-        user_to_titan.set(choice_update.user_id, choice_update.choice);
-        console.debug(user_to_titan);
+        user_to_selection.titan.set(choice_update.user_id, choice_update.choice);
+        console.debug(user_to_selection.titan);
       }
       // send update back
       send_selection_update_to_clients();
@@ -191,20 +193,20 @@ function get_data_to_send(channel_lobby, team_channels) {
   // Remove selection if user switches to lobby/waiting
   for (user of channel_tree_object.channel_lobby.users) {
     console.log("Removing user due to being in lobby:", user.id);
-    user_to_ordnance.delete(user.id);
-    user_to_titan.delete(user.id);
+    user_to_selection.ordnance.delete(user.id);
+    user_to_selection.titan.delete(user.id);
   }
 
   // Remove selection if user is no longer present
   // Get all users...
   let set_of_user_ids = get_set_of_user_ids(get_all_users_in_channels(team_channels.concat([channel_lobby])));
   // ...and remove inactive from mappings
-  remove_inactive_from_mapping(user_to_ordnance, set_of_user_ids);
-  remove_inactive_from_mapping(user_to_titan, set_of_user_ids);
+  remove_inactive_from_mapping(user_to_selection.ordnance, set_of_user_ids);
+  remove_inactive_from_mapping(user_to_selection.titan, set_of_user_ids);
 
   // Convert to string as we cannot send Maps via socket.io
-  let user_to_ordnance_string = JSON.stringify(Array.from(user_to_ordnance));
-  let user_to_titan_string = JSON.stringify(Array.from(user_to_titan));
+  let user_to_ordnance_string = JSON.stringify(Array.from(user_to_selection.ordnance));
+  let user_to_titan_string = JSON.stringify(Array.from(user_to_selection.titan));
 
   // Create object to send manually. In the future this should be made generic
   let user_to_category_item = [
