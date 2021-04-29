@@ -132,7 +132,7 @@ function display_available_for_channel(channel_users, html_object_id, user_to_ca
   for (const category of rules_copy.rule_names) {
     for (const item of rules_copy[category].choices) {
       if (item.max_per_team > 0 || item.max_per_team == null) {
-        available_html_string += '<div style="margin: 1px">' + '<img src="/images/icons/' + category + 's/' + item.id + '.png" alt="' + item.name + '" title="' + item.name + '" width="30px" height="30px" style="border-radius: 15%;"></img> ' + '</div>';
+        available_html_string += '<div style="margin: 1px">' + '<img src="/images/icons/' + category + '/' + item.id + '.png" alt="' + item.name + '" title="' + item.name + '" width="30px" height="30px" style="border-radius: 15%;"></img> ' + '</div>';
       }  
     }
     available_html_string += '</div>' + '<div style="display: flex;">'
@@ -228,7 +228,7 @@ function update_according_to_selections(channel_tree, user_to_category_item) {
     var user_to_selection = new Map(JSON.parse(user_to_selection_object.mapping_string));
 
     for (const [key, value] of user_to_selection.entries()) {
-      $("#" + key).find(".dropbtn." + category).html('<img class="icon_image" src="/images/icons/' + category + 's/' + value + '.png" alt="' + value + '" width="30px" height="30px">');
+      $("#" + key).find(".dropbtn." + category).html('<img class="icon_image" src="/images/icons/' + category + '/' + value + '.png" alt="' + value + '" width="30px" height="30px">');
     }
   }
 
@@ -254,10 +254,10 @@ function get_html_selection_string(name, id, options) {
   html_string += '<button class="dropbtn ' + id + '">' + name + '</button>';
   html_string += '<div class="dropdown-content">';
   // Add default empty selection
-  html_string += '<button class="not_selected dropdown-menu-button" onclick="update_choice(this, \'' + id + '\');"><img class="icon_image" src="/images/icons/' + id + 's/not_selected.png" alt="not_selected" width="30px" height="30px"></button>';
+  html_string += '<button class="not_selected dropdown-menu-button" onclick="update_choice(this, \'' + id + '\');"><img class="icon_image" src="/images/icons/' + id + '/not_selected.png" alt="not_selected" width="30px" height="30px"></button>';
 
   for (const option of options) {
-    html_string += '<button class="' + option.id + ' dropdown-menu-button" onclick="update_choice(this, \'' + id + '\');"><img class="icon_image" src="/images/icons/' + id + 's/' + option.id + '.png" alt="' + option.name + '" width="30px" height="30px"></button>'
+    html_string += '<button class="' + option.id + ' dropdown-menu-button" onclick="update_choice(this, \'' + id + '\');"><img class="icon_image" src="/images/icons/' + id + '/' + option.id + '.png" alt="' + option.name + '" width="30px" height="30px"></button>'
   }
   html_string += '</div>';
   html_string += '</div>';
