@@ -14,11 +14,6 @@
                 "type": "selection",
                 "choices": [
                     {
-                        "id": "frag_grenade",
-                        "name": "Frag Grenade",
-                        "max_per_team": 0
-                    },
-                    {
                         "id": "arc_grenade",
                         "name": "Arc Grenade",
                         "max_per_team": 1
@@ -87,7 +82,7 @@
                 ]
             },
             "charge_rifle": {
-                "name": "Charge Rifle",
+                "name": "Charge Rifle?",
                 "type": "binary",
                 "choices": [
                     {
@@ -178,6 +173,34 @@
                     {
                         "id": "monarch",
                         "name": "Monarch",
+                        "max_per_team": 1
+                    }
+                ]
+            }
+        },
+        {
+            "id": "ctf-nitro",
+            "name": "CTF-Nitro",
+            "rule_names": [
+                "ordnance"
+            ],
+            "ordnance": {
+                "name": "Ordnance",
+                "type": "selection",
+                "choices": [
+                    {
+                        "id": "arc_grenade",
+                        "name": "Arc Grenade",
+                        "max_per_team": 1
+                    },
+                    {
+                        "id": "fire_star",
+                        "name": "Firestar",
+                        "max_per_team": 1
+                    },
+                    {
+                        "id": "smoke_grenade",
+                        "name": "Electric Smoke Grenade",
                         "max_per_team": 1
                     }
                 ]
