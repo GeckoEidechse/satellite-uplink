@@ -6,8 +6,7 @@
             "name": "CTF",
             "rule_names": [
                 "ordnance",
-                "titan",
-                "charge_rifle"
+                "titan"
             ],
             "ordnance": {
                 "name": "Ordnance",
@@ -77,17 +76,6 @@
                     {
                         "id": "monarch",
                         "name": "Monarch",
-                        "max_per_team": 1
-                    }
-                ]
-            },
-            "charge_rifle": {
-                "name": "Charge Rifle?",
-                "type": "binary",
-                "choices": [
-                    {
-                        "id": "charge_rifle",
-                        "name": "Charge Rifle",
                         "max_per_team": 1
                     }
                 ]
