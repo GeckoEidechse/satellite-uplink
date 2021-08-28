@@ -34,7 +34,7 @@
                     },
                     {
                         "id": "satchel_charge",
-                        "name": "Satch charge",
+                        "name": "Satchel Charge",
                         "max_per_team": 1
                     }
                 ]
@@ -119,7 +119,7 @@
                     },
                     {
                         "id": "satchel_charge",
-                        "name": "Satch charge",
+                        "name": "Satchel Charge",
                         "max_per_team": 1
                     }
                 ]
