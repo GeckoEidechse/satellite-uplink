@@ -10,7 +10,7 @@
     "license": "AGPL-3.0-or-later",
     "repository": {
         "type": "git",
-        "url": "https://gitlab.com/GeckoEidechse/satellite-uplink/"
+        "url": "https://github.com/GeckoEidechse/satellite-uplink"
     },
     "dependencies": {
         "escape-html": "^1.0.3",
