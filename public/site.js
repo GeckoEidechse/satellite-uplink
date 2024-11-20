@@ -133,7 +133,7 @@ function display_available_for_channel(channel_users, html_object_id, user_to_ca
     for (const item of rules_copy[category].choices) {
       if (item.max_per_team > 0 || item.max_per_team == null) {
         available_html_string += '<div style="margin: 1px">' + '<img src="/images/icons/' + category + '/' + item.id + '.png" alt="' + item.name + '" title="' + item.name + '" width="30px" height="30px" style="border-radius: 15%;"></img> ' + '</div>';
-      }  
+      }
     }
     available_html_string += '</div>' + '<div style="display: flex;">'
   }
@@ -291,11 +291,11 @@ $.ajax({
 current_ruleset = get_ruleset(rules, rules.default);
 
 // Apply rules
-for(rule_name of current_ruleset.rule_names) {
+for (rule_name of current_ruleset.rule_names) {
   selection_html_strings += get_html_selection_string(
-      current_ruleset[rule_name].name,
-      rule_name,
-      current_ruleset[rule_name].choices
+    current_ruleset[rule_name].name,
+    rule_name,
+    current_ruleset[rule_name].choices
   );
 }
 // Get channel tree and selections on load
