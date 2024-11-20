@@ -30,7 +30,7 @@ function get_image_tag(user) {
     var url = "https://cdn.discordapp.com/avatars/" + user.id + "/" + user.avatar + ".png?size=256";
   else
     // otherwise use a default
-    var url = "https://discord.com/assets/dd4dbc0016779df1378e7812eabaa04d" + ".png?size=256";
+    var url = "/images/icons/discord/generic-discord-user-icon.png";
 
   let tag = " <img src=\"" + url + "\" alt=\"(" + user.name + "'s avatar)\" style=\"border-radius: 50%; width: 30px\"> "
   return tag;
