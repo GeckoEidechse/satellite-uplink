@@ -13,6 +13,11 @@
                 "type": "selection",
                 "choices": [
                     {
+                        "id": "frag_grenade",
+                        "name": "Frag Grenade",
+                        "max_per_team": 1
+                    },
+                    {
                         "id": "arc_grenade",
                         "name": "Arc Grenade",
                         "max_per_team": 1
